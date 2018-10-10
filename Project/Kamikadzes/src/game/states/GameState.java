@@ -12,6 +12,8 @@ import game.gfx.Assets;
 import game.tiles.Tile;
 import game.worlds.World;
 import java.awt.Graphics;
+import game.entities.creatures.Enemies.SlowZombie;
+import game.entities.creatures.Enemies.FastZombie;
 
 /**
  *
@@ -20,6 +22,8 @@ import java.awt.Graphics;
 public class GameState extends State{
 
     private Player player;
+    private SlowZombie slowZombie;
+    private FastZombie fastZombie;
     private World world;
 
     public GameState(Handler handler){
@@ -27,6 +31,9 @@ public class GameState extends State{
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
         player = new Player(handler, 100, 100);
+        slowZombie = new SlowZombie(handler, 65, 200);
+        fastZombie = new FastZombie(handler, 200, 64);
+        
         
     }
     
@@ -34,12 +41,16 @@ public class GameState extends State{
     public void tick() {
         world.tick();
         player.tick();
+        slowZombie.tick();
+        fastZombie.tick();
     }
 
     @Override
     public void render(Graphics g) {
         world.render(g);
         player.render(g);
+        slowZombie.render(g);
+        fastZombie.render(g);
     }
     
 }
