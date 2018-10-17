@@ -5,52 +5,36 @@
  */
 package game.entities.creatures;
 
-import game.Game;
 import game.Handler;
 import game.gfx.Assets;
-import java.awt.Color;
 import java.awt.Graphics;
 import singletones.MySingletone;
 
 /**
  *
- * @author Mantvydas
+ * @author nugal
  */
-public class Player extends Creature{
-
-    
-    public Player(Handler handler, float x, float y){
+public abstract class Melee extends Creature{
+     public Melee(Handler handler, float x, float y){
         super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
     
-        bounds.x = 19;
+        bounds.x = 59;
         bounds.y = 24;
         bounds.width = 25;
         bounds.height = 40;
+        
     }
 
-    @Override
-    public void tick() {
-        getInput();
-        move();
-        MySingletone points = MySingletone.getInstance();
-        points.activity((int)yMove);
-        points.activity((int)xMove);
-        System.out.println(points.getPoints());
-       
-    }
+//    @Override
+//    public void tick() {
+//       
+//    }
 
     private void getInput(){
-        xMove = 0;
-        yMove = 0;
+        xMove = 1;
+        yMove = 1;
         
-        if(handler.getKeyManager().up)
-            yMove = -speed;
-        if(handler.getKeyManager().down)
-            yMove = speed;
-        if(handler.getKeyManager().left)
-            xMove = -speed;
-        if(handler.getKeyManager().right)
-            xMove = speed;
+
     }
     
     @Override
