@@ -15,6 +15,8 @@ import game.worlds.World;
 import java.awt.Graphics;
 import game.entities.creatures.Enemies.SlowZombie;
 import game.entities.creatures.Enemies.FastZombie;
+import game.entities.creatures.levels.LevelFactory1;
+import game.entities.factories.AbstractEnemyFactory;
 import game.entities.factories.IEnemyFactory;
 import game.entities.factories.EnemyFactory;
 /**
@@ -35,10 +37,13 @@ public class GameState extends State{
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
         player = new Player(handler, 100, 100);
-        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
+//        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
         fastZombie = factory.createEnemy("FastZombie", handler, 100, 65);
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
+
+        AbstractEnemyFactory enemyFactor = new LevelFactory1();
+        slowZombie = enemyFactor.createMelee(handler, 65, 200);
         
         
     }
