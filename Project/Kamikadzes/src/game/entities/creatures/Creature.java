@@ -8,7 +8,10 @@ package game.entities.creatures;
 import game.Game;
 import game.Handler;
 import game.entities.Entity;
+import game.entities.strategy.*;
 import game.tiles.Tile;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,6 +27,9 @@ public abstract class Creature extends Entity{
     protected int health;
     protected float speed;
     protected float xMove, yMove;
+    
+    //Strategy metodu sarasas
+    public List<IAttackAlgorithm> attackList = new ArrayList<IAttackAlgorithm>();
     
     public Creature(Handler handler, float x, float y, int width, int height) {
         super(handler, x, y, width, height);
@@ -77,6 +83,14 @@ public abstract class Creature extends Entity{
             }else{
                 y = ty * Tile.TILEHEIGHT - bounds.y - bounds.height - 1;
             }
+        }
+    }
+    
+    //Atakos metodas, kuris realizuotas Strategy sablone
+    public void attack()
+    {
+        for(IAttackAlgorithm a : attackList){
+            a.attackType();
         }
     }
     
