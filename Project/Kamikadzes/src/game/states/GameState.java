@@ -7,7 +7,10 @@ package game.states;
 
 
 import game.Handler;
-import game.entities.creatures.Player;
+import game.entities.creatures.*;
+import game.entities.creatures.levels.*;
+import game.entities.factories.*;
+import game.entities.strategy.*;
 import game.gfx.Assets;
 import game.tiles.Tile;
 import game.worlds.World;
@@ -20,13 +23,28 @@ import java.awt.Graphics;
 public class GameState extends State{
 
     private Player player;
+    private Creature slowZombie;
+    private Creature fastZombie;
+    private Creature rangerZombie;
     private World world;
-
+    private IEnemyFactory factory = new EnemyFactory();
+    
+    
     public GameState(Handler handler){
         super(handler);
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
         player = new Player(handler, 100, 100);
+//        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
+        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65);
+//        slowZombie = new SlowZombie(handler, 65, 200);
+//        fastZombie = new FastZombie(handler, 200, 64);
+
+        AbstractEnemyFactory enemyFactor = new LevelFactory1();
+        //slowZombie = enemyFactor.createMelee(handler, 65, 200);
+        rangerZombie = enemyFactor.createRange(handler, 65, 200);
+        rangerZombie.attackList.add(new Slash());
+        //rangerZombie.attackList.remove(0);
         
     }
     
@@ -34,12 +52,18 @@ public class GameState extends State{
     public void tick() {
         world.tick();
         player.tick();
+        rangerZombie.tick();
+        rangerZombie.attack();
+        fastZombie.tick();
+        fastZombie.attack();
     }
 
     @Override
     public void render(Graphics g) {
         world.render(g);
         player.render(g);
+        rangerZombie.render(g);
+        fastZombie.render(g);
     }
     
 }

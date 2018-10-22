@@ -10,6 +10,7 @@ import game.Handler;
 import game.gfx.Assets;
 import java.awt.Color;
 import java.awt.Graphics;
+import singletones.MySingletone;
 
 /**
  *
@@ -31,6 +32,11 @@ public class Player extends Creature{
     public void tick() {
         getInput();
         move();
+        MySingletone points = MySingletone.getInstance();
+        points.activity((int)yMove);
+        points.activity((int)xMove);
+        System.out.println(points.getPoints());
+       
     }
 
     private void getInput(){
@@ -53,6 +59,11 @@ public class Player extends Creature{
     
         //g.setColor(Color.red);
         //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
+    }
+
+    @Override
+    public void attack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
