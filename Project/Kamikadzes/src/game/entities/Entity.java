@@ -21,17 +21,25 @@ public abstract class Entity {
     protected int width, height;
     protected Rectangle bounds;
     
-    public Entity(Handler handler, float x, float y, int width, int height){
+    protected final boolean hero;
+    
+    public Entity(Handler handler, float x, float y, int width, int height, boolean hero){
         this.handler = handler;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+        this.hero = hero;
         
         bounds = new Rectangle(0,0, width, height);
         
     }
     
+    public boolean isHero()
+    {
+        return hero;
+    }
+        
     public abstract void tick();
     public abstract void render(Graphics g);
     
@@ -59,4 +67,6 @@ public abstract class Entity {
     public void setHeight(int height){
         this.height = height;
     }
+    
+
 }

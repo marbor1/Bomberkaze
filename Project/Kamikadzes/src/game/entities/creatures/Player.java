@@ -19,13 +19,14 @@ import singletones.MySingletone;
 public class Player extends Creature{
 
     
-    public Player(Handler handler, float x, float y){
-        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
+    public Player(Handler handler, float x, float y, boolean hero){
+        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
     
         bounds.x = 19;
         bounds.y = 24;
         bounds.width = 25;
         bounds.height = 40;
+        hero = true;
     }
 
     @Override
@@ -35,7 +36,7 @@ public class Player extends Creature{
         MySingletone points = MySingletone.getInstance();
         points.activity((int)yMove);
         points.activity((int)xMove);
-        System.out.println(points.getPoints());
+       // System.out.println(points.getPoints());
        
     }
 
