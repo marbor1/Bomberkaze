@@ -19,8 +19,8 @@ import java.util.List;
  *
  * @author Mantvydas
  */
-public abstract class Creature extends Entity{
-       
+public abstract class Creature extends Entity implements Cloneable{
+    
     public static final int DEFAULT_HEALTH = 10;
     public static final float DEFAULT_SPEED = 3.0f;
     public static final int DEFAULT_CREATURE_WIDTH = 64;
@@ -33,6 +33,25 @@ public abstract class Creature extends Entity{
     Achievements achievements = new Achievements();
 
 
+    
+    public Creature shallowCopy(){  //Shallow copy
+        try {
+            return (Creature) super.clone();
+        } catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    
+    public Creature deepCopy(){  //Deep copy
+        try {
+            Creature clone = (Creature) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
     
     //Strategy metodu sarasas
     public List<IAttackAlgorithm> attackList = new ArrayList<IAttackAlgorithm>();

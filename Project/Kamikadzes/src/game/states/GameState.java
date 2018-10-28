@@ -13,6 +13,7 @@ import game.entities.creatures.playerSkins.*;
 import game.entities.factories.*;
 import game.gfx.Assets;
 import game.observer.Achievements;
+import game.strategy.*;
 import game.tiles.Physics;
 import game.tiles.Tile;
 import game.worlds.World;
@@ -29,44 +30,67 @@ public class GameState extends State{
     private Creature fastZombie;
     private Creature rangerZombie;
     private World world;
-    private IEnemyFactory factory = new EnemyFactory();   
+    private IEnemyFactory factory = new EnemyFactory();
+    private Creature sc;
+    private Creature dc;
+    
     
     
     public GameState(Handler handler){
         super(handler);
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
+        
+        //Skin
         IPlayerSkin player1 = new RedSkin(null);
         player = new Player(player1.draw(), handler, 100, 100, true);
-//        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
-        //fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); //buvo sitas
+        
+        //Factory
+        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
+        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); 
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
 
-        AbstractEnemyFactory enemyFactor = new LevelFactory1();
-        //slowZombie = enemyFactor.createMelee(handler, 65, 200);
-      //  rangerZombie = enemyFactor.createRange(handler, 65, 200); //buvo sitas
-     //   rangerZombie.attackList.add(new Slash()); //buvo sitas
-        //rangerZombie.attackList.remove(0);
+
+        //Abstract factory
+        AbstractEnemyFactory enemyFactor = new LevelFactory1();           
+        slowZombie = enemyFactor.createMelee(handler, 65, 200);
+        rangerZombie = enemyFactor.createRange(handler, 65, 200); 
+
+        System.out.println("1) " + System.identityHashCode(fastZombie));
+        sc = fastZombie.shallowCopy(); //ShallowCopy
+        sc.setX(800); //ShallowCopy test
+        System.out.println("2) " + System.identityHashCode(sc));
+        dc = fastZombie.deepCopy();  //DeepCopy
+        dc.setX(500); //DeepCopy test
+        System.out.println("3) " + System.identityHashCode(dc));
         
-    }
+        //Strategy
+        rangerZombie.attackList.add(new Slash()); 
+        //rangerZombie.attackList.remove(0);
+    }   
     
     @Override
     public void tick() {
         world.tick();
         player.tick();
-      //  rangerZombie.tick();
-      //  rangerZombie.attack();
-        //fastZombie.tick();
-        //fastZombie.attack();
+        rangerZombie.tick();
+        //rangerZombie.attack(); //strategy
+        fastZombie.tick();
+        sc.tick();
+        dc.tick();
+        //fastZombie.attack(); //strategy
     }
 
     @Override
     public void render(Graphics g) {
         world.render(g);
         player.render(g);
-       // rangerZombie.render(g);
-        //fastZombie.render(g);
+        rangerZombie.render(g);
+        fastZombie.render(g);
+        sc.render(g);
+        dc.render(g);
+        
     }
     
 }
