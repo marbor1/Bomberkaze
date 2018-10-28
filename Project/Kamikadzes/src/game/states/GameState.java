@@ -9,9 +9,12 @@ package game.states;
 import game.Handler;
 import game.entities.creatures.*;
 import game.entities.creatures.levels.*;
+import game.entities.creatures.playerSkins.*;
 import game.entities.factories.*;
-import game.entities.strategy.*;
 import game.gfx.Assets;
+import game.observer.Achievements;
+import game.strategy.*;
+import game.tiles.Physics;
 import game.tiles.Tile;
 import game.worlds.World;
 import java.awt.Graphics;
@@ -37,17 +40,23 @@ public class GameState extends State{
         super(handler);
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
-        player = new Player(handler, 100, 100);
-//        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
-        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65);
+        
+        //Skin
+        IPlayerSkin player1 = new RedSkin(null);
+        player = new Player(player1.draw(), handler, 100, 100, true);
+        
+        //Factory
+        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
+        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); 
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
 
-        AbstractEnemyFactory enemyFactor = new LevelFactory1();
-        //slowZombie = enemyFactor.createMelee(handler, 65, 200);
-        rangerZombie = enemyFactor.createRange(handler, 65, 200);
-        rangerZombie.attackList.add(new Slash());
-        //rangerZombie.attackList.remove(0);
+
+        //Abstract factory
+        AbstractEnemyFactory enemyFactor = new LevelFactory1();           
+        slowZombie = enemyFactor.createMelee(handler, 65, 200);
+        rangerZombie = enemyFactor.createRange(handler, 65, 200); 
+
         System.out.println("1) " + System.identityHashCode(fastZombie));
         sc = fastZombie.shallowCopy(); //ShallowCopy
         sc.setX(800); //ShallowCopy test
@@ -55,6 +64,10 @@ public class GameState extends State{
         dc = fastZombie.deepCopy();  //DeepCopy
         dc.setX(500); //DeepCopy test
         System.out.println("3) " + System.identityHashCode(dc));
+        
+        //Strategy
+        rangerZombie.attackList.add(new Slash()); 
+        //rangerZombie.attackList.remove(0);
     }   
     
     @Override
@@ -62,11 +75,11 @@ public class GameState extends State{
         world.tick();
         player.tick();
         rangerZombie.tick();
-        rangerZombie.attack();
+        //rangerZombie.attack(); //strategy
         fastZombie.tick();
         sc.tick();
         dc.tick();
-        fastZombie.attack();
+        //fastZombie.attack(); //strategy
     }
 
     @Override
