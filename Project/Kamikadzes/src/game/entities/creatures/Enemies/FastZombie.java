@@ -20,7 +20,7 @@ public class FastZombie extends Melee{
         super(handler, x, y);
         
         speed = 2;
-         bounds.x = 19;
+        bounds.x = 19;
         bounds.y = 24;
         bounds.width = 25;
         bounds.height = 40;

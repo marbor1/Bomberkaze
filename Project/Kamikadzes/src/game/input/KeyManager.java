@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener{
 
     private boolean[] keys;
-    public boolean up, down, left, right;
+    public boolean up, down, left, right, attack;
     
     public KeyManager(){
         keys = new boolean[256];
@@ -26,6 +26,7 @@ public class KeyManager implements KeyListener{
         down = keys[KeyEvent.VK_S];
         left = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
+        attack = keys[KeyEvent.VK_F];
     }
     
     @Override
@@ -36,7 +37,7 @@ public class KeyManager implements KeyListener{
     @Override
     public void keyPressed(KeyEvent ke) {
         keys[ke.getKeyCode()] = true;
-        System.out.println("Pressed");
+      //  System.out.println("Pressed");
     }
 
     @Override

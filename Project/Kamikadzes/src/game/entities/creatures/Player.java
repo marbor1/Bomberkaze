@@ -19,13 +19,12 @@ import singletones.MySingletone;
  * @author Mantvydas
  */
 public class Player extends Creature implements IPlayerSkin{
- 
-   
+
     protected BufferedImage skin;
     
-    public Player(BufferedImage skin , Handler handler, float x, float y){
-        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT);
-        
+    public Player(BufferedImage skin, Handler handler, float x, float y, boolean hero){
+        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
+    
         if (skin == null )
         {
             this.skin = Assets.player;
@@ -35,7 +34,7 @@ public class Player extends Creature implements IPlayerSkin{
         bounds.y = 24;
         bounds.width = 25;
         bounds.height = 40;
-        
+        hero = true;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class Player extends Creature implements IPlayerSkin{
         MySingletone points = MySingletone.getInstance();
         points.activity((int)yMove);
         points.activity((int)xMove);
-        //System.out.println(points.getPoints());
+       // System.out.println(points.getPoints());
        
     }
 
@@ -72,12 +71,13 @@ public class Player extends Creature implements IPlayerSkin{
     }
 
     @Override
+    public void attack() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public BufferedImage draw() {
         return null;
     }
-
-   
-
-
     
 }

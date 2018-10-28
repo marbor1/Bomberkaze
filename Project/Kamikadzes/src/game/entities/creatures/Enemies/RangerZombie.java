@@ -45,6 +45,5 @@ public class RangerZombie extends Range{
     
         //g.setColor(Color.red);
         //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
-    }
-    
+    }    
 }
