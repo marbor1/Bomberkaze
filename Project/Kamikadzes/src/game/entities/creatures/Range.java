@@ -5,8 +5,8 @@
  */
 package game.entities.creatures;
 
+import game.strategy.Shoot;
 import game.Handler;
-import game.entities.strategy.*;
 import game.gfx.Assets;
 import java.awt.Graphics;
 import singletones.MySingletone;

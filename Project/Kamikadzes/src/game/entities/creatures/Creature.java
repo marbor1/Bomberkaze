@@ -5,10 +5,10 @@
  */
 package game.entities.creatures;
 
+import game.strategy.IAttackAlgorithm;
 import game.Game;
 import game.Handler;
 import game.entities.Entity;
-import game.entities.strategy.*;
 import game.observer.Achievements;
 import game.tiles.Tile;
 import game.tiles.Physics;

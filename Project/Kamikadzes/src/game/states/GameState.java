@@ -10,7 +10,6 @@ import game.Handler;
 import game.entities.creatures.*;
 import game.entities.creatures.levels.*;
 import game.entities.factories.*;
-import game.entities.strategy.*;
 import game.gfx.Assets;
 import game.observer.Achievements;
 import game.tiles.Physics;

@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.entities.strategy;
+package game.strategy;
 
 /**
  *
  * @author Kompas
  */
-public class Slash implements IAttackAlgorithm{
-
-    @Override
-    public void attackType() {
-        System.out.println("Slash attack");
-    }
+public interface IAttackAlgorithm {
     
+    void attackType();
 }
