@@ -28,6 +28,9 @@ public class GameState extends State{
     private Creature rangerZombie;
     private World world;
     private IEnemyFactory factory = new EnemyFactory();
+    private Creature sc;
+    private Creature dc;
+    
     
     
     public GameState(Handler handler){
@@ -45,8 +48,14 @@ public class GameState extends State{
         rangerZombie = enemyFactor.createRange(handler, 65, 200);
         rangerZombie.attackList.add(new Slash());
         //rangerZombie.attackList.remove(0);
-        
-    }
+        System.out.println("1) " + System.identityHashCode(fastZombie));
+        sc = fastZombie.shallowCopy(); //ShallowCopy
+        sc.setX(800); //ShallowCopy test
+        System.out.println("2) " + System.identityHashCode(sc));
+        dc = fastZombie.deepCopy();  //DeepCopy
+        dc.setX(500); //DeepCopy test
+        System.out.println("3) " + System.identityHashCode(dc));
+    }   
     
     @Override
     public void tick() {
@@ -55,6 +64,8 @@ public class GameState extends State{
         rangerZombie.tick();
         rangerZombie.attack();
         fastZombie.tick();
+        sc.tick();
+        dc.tick();
         fastZombie.attack();
     }
 
@@ -64,6 +75,9 @@ public class GameState extends State{
         player.render(g);
         rangerZombie.render(g);
         fastZombie.render(g);
+        sc.render(g);
+        dc.render(g);
+        
     }
     
 }

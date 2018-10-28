@@ -8,6 +8,7 @@ package game.entities.factories;
 import game.entities.creatures.Creature;
 import game.entities.creatures.Enemies.FastZombie;
 import game.Handler;
+import game.entities.builders.Director;
 import game.entities.creatures.Enemies.SlowZombie;
 /**
  *
@@ -15,13 +16,18 @@ import game.entities.creatures.Enemies.SlowZombie;
  */
 public class EnemyFactory implements IEnemyFactory{
     
+    Director dir = new Director();
+    
+    @Override
     public Creature createEnemy(String type, Handler handler,int x, int y)
     {
         if(type.equals("FastZombie")){
-            return new FastZombie(handler, x, y);
+            return dir.getFastZombie(handler, x, y);
+            //return new FastZombie(handler, x, y);
         }
         if(type.equals("SlowZombie")){
-            return new SlowZombie(handler, x, y);
+            return dir.getSlowZombie(handler, x, y);
+            //return new SlowZombie(handler, x, y);
         }
         return null;
     }
