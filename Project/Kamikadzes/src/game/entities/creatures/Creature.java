@@ -5,11 +5,13 @@
  */
 package game.entities.creatures;
 
+import game.strategy.IAttackAlgorithm;
 import game.Game;
 import game.Handler;
 import game.entities.Entity;
-import game.entities.strategy.*;
+import game.observer.Achievements;
 import game.tiles.Tile;
+import game.tiles.Physics;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,7 +20,7 @@ import java.util.List;
  * @author Mantvydas
  */
 public abstract class Creature extends Entity{
-    
+       
     public static final int DEFAULT_HEALTH = 10;
     public static final float DEFAULT_SPEED = 3.0f;
     public static final int DEFAULT_CREATURE_WIDTH = 64;
@@ -27,16 +29,21 @@ public abstract class Creature extends Entity{
     protected int health;
     protected float speed;
     protected float xMove, yMove;
+    protected Physics physic = new Physics();
+    Achievements achievements = new Achievements();
+
+
     
     //Strategy metodu sarasas
     public List<IAttackAlgorithm> attackList = new ArrayList<IAttackAlgorithm>();
     
-    public Creature(Handler handler, float x, float y, int width, int height) {
-        super(handler, x, y, width, height);
+    public Creature(Handler handler, float x, float y, int width, int height, boolean hero) {
+        super(handler, x, y, width, height, hero);
         health = DEFAULT_HEALTH;
         speed = DEFAULT_SPEED;
         xMove = 0;
         yMove = 0;
+        physic.add(achievements);
     }
     
     public void move(){
@@ -44,23 +51,25 @@ public abstract class Creature extends Entity{
         moveY();
     }
     
-    public void moveX(){
+    public void moveX(){    
         if(xMove > 0)//moving right
         {
             int tx = (int) (x + xMove + bounds.x + bounds. width) / Tile.TILEWIDTH;
-            if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT)
-                    && !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)){ //Collision check
+            if(!physic.collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, handler)
+                    && !physic.collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, handler)){ //Collision check
                x += xMove; 
             }else{
                 x = tx * Tile.TILEWIDTH - bounds.x - bounds. width - 1;
+                physic.collisionNotify(this);
             }
         }else if(xMove < 0){//moving left
             int tx = (int) (x + xMove + bounds.x) / Tile.TILEWIDTH;
-            if(!collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT)
-                    && !collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT)){ //Collision check
+            if(!physic.collisionWithTile(tx, (int) (y + bounds.y) / Tile.TILEHEIGHT, handler)
+                    && !physic.collisionWithTile(tx, (int) (y + bounds.y + bounds.height) / Tile.TILEHEIGHT, handler)){ //Collision check
                x += xMove; 
             }else{
-                x = tx * Tile.TILEWIDTH +Tile.TILEWIDTH - bounds.x; 
+                x = tx * Tile.TILEWIDTH +Tile.TILEWIDTH - bounds.x;
+                physic.collisionNotify(this);
             }
         }
     }
@@ -68,20 +77,22 @@ public abstract class Creature extends Entity{
         if(yMove < 0){
             int ty = (int) (y + yMove + bounds.y) / Tile.TILEHEIGHT;
             
-            if(!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty) 
-                    && !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty)){
+            if(!physic.collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty, handler) 
+                    && !physic.collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty, handler)){
                 y += yMove;
             }else{
                 y = ty * Tile.TILEHEIGHT + Tile.TILEHEIGHT - bounds.y;
+                physic.collisionNotify(this);
             }
         }else if(yMove > 0){
            int ty = (int) (y + yMove + bounds.y + bounds.height) / Tile.TILEHEIGHT;
             
-            if(!collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty) 
-                    && !collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty)){
+            if(!physic.collisionWithTile((int) (x + bounds.x) / Tile.TILEWIDTH, ty, handler) 
+                    && !physic.collisionWithTile((int) (x + bounds.x + bounds.width) / Tile.TILEWIDTH, ty, handler)){
                 y += yMove;
             }else{
                 y = ty * Tile.TILEHEIGHT - bounds.y - bounds.height - 1;
+                physic.collisionNotify(this);
             }
         }
     }
@@ -94,9 +105,9 @@ public abstract class Creature extends Entity{
         }
     }
     
-    protected boolean collisionWithTile(int x, int y){
+   /* protected boolean collisionWithTile(int x, int y){
         return handler.getWorld().getTile(x, y).isSolid();
-    }
+    }*/
     
     public int getHealth(){
         return health;
