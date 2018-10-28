@@ -9,6 +9,7 @@ package game.states;
 import game.Handler;
 import game.entities.creatures.*;
 import game.entities.creatures.levels.*;
+import game.entities.creatures.playerSkins.*;
 import game.entities.factories.*;
 import game.gfx.Assets;
 import game.observer.Achievements;
@@ -35,7 +36,8 @@ public class GameState extends State{
         super(handler);
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
-        player = new Player(handler, 100, 100, true);
+        IPlayerSkin player1 = new RedSkin(null);
+        player = new Player(player1.draw(), handler, 100, 100, true);
 //        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
         //fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); //buvo sitas
 //        slowZombie = new SlowZombie(handler, 65, 200);
