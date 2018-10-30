@@ -9,11 +9,11 @@ package game.strategy;
  *
  * @author Kompas
  */
-public class Shoot implements IAttackAlgorithm{
+public class ThrowRock implements IAttackAlgorithm{
 
     @Override
     public void attackType() {
-        System.out.println("Shoot attack");
+        System.out.println("Throw rock");
     }
     
 }

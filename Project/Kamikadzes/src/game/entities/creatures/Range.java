@@ -5,7 +5,7 @@
  */
 package game.entities.creatures;
 
-import game.strategy.Shoot;
+import game.strategy.ShootGun;
 import game.Handler;
 import game.gfx.Assets;
 import java.awt.Graphics;
@@ -25,7 +25,7 @@ public abstract class Range extends Creature{
         bounds.height = 40;
         
         //Strategy sablono ataka
-        this.attackList.add(new Shoot());
+        this.attackList.add(new ShootGun());
     }
 
 //    @Override

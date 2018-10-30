@@ -98,11 +98,7 @@ public class Player extends Creature implements IPlayerSkin{
     @Override
     public void attack() {
         System.out.println(this.name + " atakuoja");
-    }
-    
-    public void putBomb(){
-        System.out.println(this.name + " padejo bomba");
-    }
+    }  
 
     @Override
     public BufferedImage draw() {
