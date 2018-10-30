@@ -42,6 +42,12 @@ public class ZombieBuilder implements IBuilder{
     }
     
     @Override
+    public IBuilder addBombs(String type) {
+        e.addBombs(type);
+        return this;
+    }
+    
+    @Override
     public Creature buildEnemy() {
         return e;
     }
