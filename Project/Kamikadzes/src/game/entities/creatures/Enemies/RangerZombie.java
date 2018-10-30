@@ -26,6 +26,10 @@ public class RangerZombie extends Range{
         bounds.height = 40;
     
     }
+    public RangerZombie(){
+        super(null,0,0);
+    }
+        
      @Override
     public void tick() {
         getMovement();
@@ -46,4 +50,9 @@ public class RangerZombie extends Range{
         //g.setColor(Color.red);
         //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
     }    
+    public void isKilled()
+    {
+        MySingletone points = MySingletone.getInstance();
+        points.activity(100);
+    }
 }

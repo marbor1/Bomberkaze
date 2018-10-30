@@ -16,6 +16,7 @@ import singletones.MySingletone;
  * @author nugal
  */
 public class FastZombie extends Melee{
+    
      public FastZombie(Handler handler, float x, float y){
         super(handler, x, y);
         
@@ -26,6 +27,10 @@ public class FastZombie extends Melee{
         bounds.height = 40;
     
     }
+    public FastZombie(){
+        super(null,0,0);
+    }
+     
      @Override
     public void tick() {
         getMovement();
@@ -42,9 +47,13 @@ public class FastZombie extends Melee{
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
-    
-        //g.setColor(Color.red);
-        //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
+  
+    }
+    public void isKilled()
+    {
+        MySingletone points = MySingletone.getInstance();
+        points.activity(100);
+        System.out.println(points.getPoints());
     }
     
 }

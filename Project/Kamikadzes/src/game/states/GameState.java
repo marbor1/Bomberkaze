@@ -8,6 +8,7 @@ package game.states;
 
 import game.Handler;
 import game.entities.creatures.*;
+import game.entities.creatures.Enemies.*;
 import game.entities.creatures.levels.*;
 import game.entities.creatures.playerSkins.*;
 import game.entities.factories.*;
@@ -48,6 +49,9 @@ public class GameState extends State{
         //Factory
         slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200, "SimpleBomb");
         fastZombie = factory.createEnemy("FastZombie", handler, 100, 65, "SimpleBomb"); 
+        EnemiesFacade enemyPoints = new EnemiesFacade();
+        enemyPoints.killFastZombie();
+        enemyPoints.killSlowZombie();
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
 
