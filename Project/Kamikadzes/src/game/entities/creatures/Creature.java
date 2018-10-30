@@ -29,6 +29,7 @@ public abstract class Creature extends Entity implements Cloneable{
     protected int health;
     protected float speed;
     protected float xMove, yMove;
+    protected Bomb bombs = null;
     protected Physics physic = new Physics();
     Achievements achievements = new Achievements();
 
@@ -46,6 +47,7 @@ public abstract class Creature extends Entity implements Cloneable{
     public Creature deepCopy(){  //Deep copy
         try {
             Creature clone = (Creature) super.clone();
+            clone.bombs = clone.bombs.clone();
             return clone;
         } catch (CloneNotSupportedException e){
             e.printStackTrace();
@@ -141,5 +143,10 @@ public abstract class Creature extends Entity implements Cloneable{
         this.speed = speed;
     }
     
-    
+    public void addBombs(String type){
+        this.bombs = new Bomb(type);
+    }
+    public Bomb getBombs(){
+        return this.bombs;
+    }
 }

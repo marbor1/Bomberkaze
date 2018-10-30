@@ -20,6 +20,8 @@ public interface IBuilder {
     
     IBuilder addFast();
     
+    IBuilder addBombs(String type);
+    
     Creature buildEnemy();
     
 }

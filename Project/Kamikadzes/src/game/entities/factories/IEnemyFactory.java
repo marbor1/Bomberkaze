@@ -12,6 +12,6 @@ import game.entities.creatures.Creature;
  */
 public interface IEnemyFactory {
     
-    public Creature createEnemy(String type, Handler handler, int x, int y);
+    public Creature createEnemy(String type, Handler handler, int x, int y, String BombsType);
     
 }

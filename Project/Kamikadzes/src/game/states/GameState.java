@@ -46,8 +46,8 @@ public class GameState extends State{
         player = new Player(player1.draw(), handler, 100, 100, true);
         
         //Factory
-        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
-        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); 
+        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200, "SimpleBomb");
+        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65, "SimpleBomb"); 
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
 
@@ -57,13 +57,13 @@ public class GameState extends State{
         slowZombie = enemyFactor.createMelee(handler, 65, 200);
         rangerZombie = enemyFactor.createRange(handler, 65, 200); 
 
-        System.out.println("1) " + System.identityHashCode(fastZombie));
+        System.out.println("1) Original Fast zombie: " + System.identityHashCode(fastZombie) + ", Zombie bomb: " + System.identityHashCode(fastZombie.getBombs()));
         sc = fastZombie.shallowCopy(); //ShallowCopy
         sc.setX(800); //ShallowCopy test
-        System.out.println("2) " + System.identityHashCode(sc));
+        System.out.println("2) Fast zombie shallow copy: " + System.identityHashCode(sc) + ", Zombie bomb: " + System.identityHashCode(sc.getBombs()));
         dc = fastZombie.deepCopy();  //DeepCopy
         dc.setX(500); //DeepCopy test
-        System.out.println("3) " + System.identityHashCode(dc));
+        System.out.println("3) Fast zombie deep copy: " + System.identityHashCode(dc) + ", Zombie bomb: " + System.identityHashCode(dc.getBombs()));
         
         //Strategy
         rangerZombie.attackList.add(new Slash()); 
