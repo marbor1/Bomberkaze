@@ -16,6 +16,7 @@ import singletones.MySingletone;
  * @author nugal
  */
 public class SlowZombie extends Melee{
+    
      public SlowZombie(Handler handler, float x, float y){
         super(handler, x, y);
         
@@ -29,7 +30,7 @@ public class SlowZombie extends Melee{
     public SlowZombie(){
         super(null,0,0);
     }
-        
+     
      @Override
     public void tick() {
         getMovement();
@@ -38,17 +39,15 @@ public class SlowZombie extends Melee{
     }
 
     private void getMovement(){
-        xMove = 0;
-        yMove = 1;
+        xMove = speed;
+        yMove = speed;
         
     }
     
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
-    
-        //g.setColor(Color.red);
-        //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
+  
     }
     public void isKilled()
     {

@@ -55,4 +55,5 @@ public class RangerZombie extends Range{
         MySingletone points = MySingletone.getInstance();
         points.activity(100);
     }
+     
 }

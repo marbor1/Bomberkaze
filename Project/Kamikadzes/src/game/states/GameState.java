@@ -49,9 +49,13 @@ public class GameState extends State{
         //Factory
         slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
         fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); 
+        rangerZombie = factory.createEnemy("RangedZombie", handler, 100, 65); 
         EnemiesFacade enemyPoints = new EnemiesFacade();
         enemyPoints.killFastZombie();
         enemyPoints.killSlowZombie();
+//        ZombieAtackAdapter adapter = new ZombieAtackAdapter(rangerZombie);
+        
+        
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
 
