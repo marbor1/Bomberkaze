@@ -9,6 +9,7 @@ import game.Game;
 import game.Handler;
 import game.entities.creatures.playerSkins.IPlayerSkin;
 import game.gfx.Assets;
+import game.input.Command;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -21,9 +22,13 @@ import singletones.MySingletone;
 public class Player extends Creature implements IPlayerSkin{
 
     protected BufferedImage skin;
+    private Command command;
     
-    public Player(BufferedImage skin, Handler handler, float x, float y, boolean hero){
-        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
+    private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
+    
+    
+    public Player(String name, BufferedImage skin, Handler handler, float x, float y, boolean hero){
+        super(name, handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
     
         if (skin == null )
         {
@@ -35,6 +40,7 @@ public class Player extends Creature implements IPlayerSkin{
         bounds.width = 25;
         bounds.height = 40;
         hero = true;
+
     }
 
     @Override
@@ -44,10 +50,28 @@ public class Player extends Creature implements IPlayerSkin{
         MySingletone points = MySingletone.getInstance();
         points.activity((int)yMove);
         points.activity((int)xMove);
+        checkAttacks();
        // System.out.println(points.getPoints());
        
     }
-
+    
+    private void checkAttacks()
+    {
+        attackTimer += System.currentTimeMillis() - lastAttackTimer;
+        lastAttackTimer = System.currentTimeMillis();
+        if(attackTimer < attackCooldown)
+            return;
+        
+        if(handler.getKeyManager().attack)
+            handler.getKeyManager().buttonG.execute(this);
+        else if(handler.getKeyManager().bomb)
+            handler.getKeyManager().buttonF.execute(this);
+        else 
+            return;
+        
+        attackTimer = 0;
+    }
+    
     private void getInput(){
         xMove = 0;
         yMove = 0;
@@ -59,7 +83,7 @@ public class Player extends Creature implements IPlayerSkin{
         if(handler.getKeyManager().left)
             xMove = -speed;
         if(handler.getKeyManager().right)
-            xMove = speed;
+            xMove = speed;               
     }
     
     @Override
@@ -70,9 +94,14 @@ public class Player extends Creature implements IPlayerSkin{
         //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
     }
 
+    //Player ataka nesutampa su prieso igyvendintu metodu
     @Override
     public void attack() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(this.name + " atakuoja");
+    }
+    
+    public void putBomb(){
+        System.out.println(this.name + " padejo bomba");
     }
 
     @Override

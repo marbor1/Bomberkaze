@@ -43,7 +43,7 @@ public class GameState extends State{
         
         //Skin
         IPlayerSkin player1 = new RedSkin(null);
-        player = new Player(player1.draw(), handler, 100, 100, true);
+        player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
         
         //Factory
         slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);

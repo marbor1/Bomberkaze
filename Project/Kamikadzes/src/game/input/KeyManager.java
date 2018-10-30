@@ -7,6 +7,7 @@ package game.input;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.LinkedList;
 
 /**
  *
@@ -15,10 +16,17 @@ import java.awt.event.KeyListener;
 public class KeyManager implements KeyListener{
 
     private boolean[] keys;
-    public boolean up, down, left, right, attack;
+    public boolean up, down, left, right, bomb, attack;
+    
+    public LinkedList<Command> commands = new LinkedList<Command>();
+    public Command buttonF = new PutBombCommand();
+    public Command buttonG = new FireCommand();
+    
     
     public KeyManager(){
         keys = new boolean[256];
+        commands.add(buttonF);
+        commands.add(buttonG);
     }
     
     public void tick(){
@@ -26,7 +34,8 @@ public class KeyManager implements KeyListener{
         down = keys[KeyEvent.VK_S];
         left = keys[KeyEvent.VK_A];
         right = keys[KeyEvent.VK_D];
-        attack = keys[KeyEvent.VK_F];
+        bomb = keys[KeyEvent.VK_F];
+        attack = keys[KeyEvent.VK_G];
     }
     
     @Override
@@ -44,5 +53,5 @@ public class KeyManager implements KeyListener{
     public void keyReleased(KeyEvent ke) {
         keys[ke.getKeyCode()] = false;
     }
-    
+
 }

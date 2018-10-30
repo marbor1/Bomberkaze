@@ -6,6 +6,7 @@
 package game.observer;
 
 import game.entities.Entity;
+import game.entities.creatures.Player;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,17 +34,17 @@ public class Achievements implements IObserver{
             case KOLIZIJA:
                 if(entity.isHero())
                 {
-                    unlock(Achievement.IVYKO_KOLIZIJA);
+                    unlock(Achievement.IVYKO_KOLIZIJA, entity);
                 }
         }
     }
     
-    private void unlock(Achievement achievement)
+    private void unlock(Achievement achievement, Entity player)
     {
         if(!achievements.contains(achievement))
         {
             achievements.add(achievement);
-            System.out.println("Gautas achievementas " + achievement.name());
+            System.out.println(player.getName() + " Gavo achievementa " + achievement.name());
         }
     }
     

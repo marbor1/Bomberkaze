@@ -56,8 +56,8 @@ public abstract class Creature extends Entity implements Cloneable{
     //Strategy metodu sarasas
     public List<IAttackAlgorithm> attackList = new ArrayList<IAttackAlgorithm>();
     
-    public Creature(Handler handler, float x, float y, int width, int height, boolean hero) {
-        super(handler, x, y, width, height, hero);
+    public Creature(String name, Handler handler, float x, float y, int width, int height, boolean hero) {
+        super(name, handler, x, y, width, height, hero);
         health = DEFAULT_HEALTH;
         speed = DEFAULT_SPEED;
         xMove = 0;
