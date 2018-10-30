@@ -68,6 +68,9 @@ public class GameState extends State{
         //Strategy
         rangerZombie.attackList.add(new Slash()); 
         //rangerZombie.attackList.remove(0);
+        
+        //Bridge
+        player.addBomb(new C4bomb());
     }   
     
     @Override

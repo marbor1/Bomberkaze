@@ -5,6 +5,7 @@
  */
 package game.entities.creatures;
 
+import bridge.Bomb;
 import game.Game;
 import game.Handler;
 import game.entities.creatures.playerSkins.IPlayerSkin;
@@ -22,8 +23,8 @@ public class Player extends Creature implements IPlayerSkin{
 
     protected BufferedImage skin;
     
-    public Player(BufferedImage skin, Handler handler, float x, float y, boolean hero){
-        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
+    public Player(BufferedImage skin, Handler handler, float x, float y, boolean hero, Bomb bomb){
+        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero, bomb);
     
         if (skin == null )
         {
@@ -35,6 +36,7 @@ public class Player extends Creature implements IPlayerSkin{
         bounds.width = 25;
         bounds.height = 40;
         hero = true;
+        
     }
 
     @Override
@@ -78,6 +80,10 @@ public class Player extends Creature implements IPlayerSkin{
     @Override
     public BufferedImage draw() {
         return null;
+    }
+    
+    public void addBomb(){
+        bomb.addBomb();
     }
     
 }
