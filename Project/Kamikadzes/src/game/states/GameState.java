@@ -18,9 +18,6 @@ import game.tiles.Physics;
 import game.tiles.Tile;
 import game.worlds.World;
 import java.awt.Graphics;
-import Multiplayer.AzureConnection;
-import adapters.CreatureJSONAdapter;
-import adapters.JSONParser;
 
 /**
  *
@@ -36,25 +33,17 @@ public class GameState extends State{
     private IEnemyFactory factory = new EnemyFactory();
     private Creature sc;
     private Creature dc;
-    private AzureConnection con;
     
     
     
     public GameState(Handler handler){
         super(handler);
-        
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
+        
         //Skin
         IPlayerSkin player1 = new RedSkin(null);
         player = new Player(player1.draw(), handler, 100, 100, true);
-        
-        JSONParser jsonobj = new CreatureJSONAdapter(player);
-        
-        jsonobj.getandsetHealth();
-        jsonobj.getandsetSpeed();
-        System.out.println(jsonobj.showJSONobject());
-        
         
         //Factory
         slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
@@ -79,6 +68,9 @@ public class GameState extends State{
         //Strategy
         rangerZombie.attackList.add(new Slash()); 
         //rangerZombie.attackList.remove(0);
+        
+        //Bridge
+        player.addBomb(new C4bomb());
     }   
     
     @Override

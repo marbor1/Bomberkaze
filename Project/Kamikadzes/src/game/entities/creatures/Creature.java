@@ -5,6 +5,7 @@
  */
 package game.entities.creatures;
 
+import adapters.Enemy;
 import game.strategy.IAttackAlgorithm;
 import game.Game;
 import game.Handler;
@@ -19,7 +20,7 @@ import java.util.List;
  *
  * @author Mantvydas
  */
-public abstract class Creature extends Entity implements Cloneable {
+public abstract class Creature extends Entity implements Cloneable, Enemy{
     
     public static final int DEFAULT_HEALTH = 10;
     public static final float DEFAULT_SPEED = 3.0f;
@@ -65,6 +66,7 @@ public abstract class Creature extends Entity implements Cloneable {
         physic.add(achievements);
     }
     
+    @Override
     public void move(){
         moveX();
         moveY();
@@ -119,11 +121,18 @@ public abstract class Creature extends Entity implements Cloneable {
     
     
     //Atakos metodas, kuris realizuotas Strategy sablone
+    @Override
     public void attack()
     {
         for(IAttackAlgorithm a : attackList){
             a.attackType();
         }
+    }
+    
+    @Override
+    public void destroy()
+    {
+        
     }
     
    /* protected boolean collisionWithTile(int x, int y){
@@ -137,7 +146,7 @@ public abstract class Creature extends Entity implements Cloneable {
         this.health = health;
     }
     public float getSpeed(){
-        return speed;
+        return health;
     }
     public void setSpeed(float speed){
         this.speed = speed;
