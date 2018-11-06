@@ -29,6 +29,7 @@ public abstract class Creature extends Entity implements Cloneable {
     protected int health;
     protected float speed;
     protected float xMove, yMove;
+    protected Bomb bombs = null;
     protected Physics physic = new Physics();
     Achievements achievements = new Achievements();
 
@@ -46,6 +47,7 @@ public abstract class Creature extends Entity implements Cloneable {
     public Creature deepCopy(){  //Deep copy
         try {
             Creature clone = (Creature) super.clone();
+            clone.bombs = clone.bombs.clone();
             return clone;
         } catch (CloneNotSupportedException e){
             e.printStackTrace();
@@ -56,8 +58,8 @@ public abstract class Creature extends Entity implements Cloneable {
     //Strategy metodu sarasas
     public List<IAttackAlgorithm> attackList = new ArrayList<IAttackAlgorithm>();
     
-    public Creature(Handler handler, float x, float y, int width, int height, boolean hero) {
-        super(handler, x, y, width, height, hero);
+    public Creature(String name, Handler handler, float x, float y, int width, int height, boolean hero) {
+        super(name, handler, x, y, width, height, hero);
         health = DEFAULT_HEALTH;
         speed = DEFAULT_SPEED;
         xMove = 0;
@@ -143,5 +145,15 @@ public abstract class Creature extends Entity implements Cloneable {
         this.speed = speed;
     }
     
+    public void addBombs(String type){
+        this.bombs = new Bomb(type);
+    }
+    public Bomb getBombs(){
+        return this.bombs;
+    }
     
+    public void putBomb(){
+        System.out.println("Command");
+        System.out.println(this.name + " padejo bomba");
+    }
 }

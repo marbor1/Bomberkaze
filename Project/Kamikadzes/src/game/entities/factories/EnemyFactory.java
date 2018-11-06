@@ -19,14 +19,14 @@ public class EnemyFactory implements IEnemyFactory{
     Director dir = new Director();
     
     @Override
-    public Creature createEnemy(String type, Handler handler,int x, int y)
+    public Creature createEnemy(String type, Handler handler,int x, int y, String bombsType)
     {
         if(type.equals("FastZombie")){
-            return dir.getFastZombie(handler, x, y);
+            return dir.getFastZombie(handler, x, y, bombsType);
             //return new FastZombie(handler, x, y);
         }
         if(type.equals("SlowZombie")){
-            return dir.getSlowZombie(handler, x, y);
+            return dir.getSlowZombie(handler, x, y, bombsType);
             //return new SlowZombie(handler, x, y);
         }
         return null;

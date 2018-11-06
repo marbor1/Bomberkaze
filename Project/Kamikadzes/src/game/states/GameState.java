@@ -7,7 +7,9 @@ package game.states;
 
 
 import game.Handler;
+import game.entities.builders.ZombieBuilder;
 import game.entities.creatures.*;
+import game.entities.creatures.Enemies.*;
 import game.entities.creatures.levels.*;
 import game.entities.creatures.playerSkins.*;
 import game.entities.factories.*;
@@ -21,6 +23,8 @@ import java.awt.Graphics;
 import Multiplayer.AzureConnection;
 import adapters.CreatureJSONAdapter;
 import adapters.JSONParser;
+import java.util.Random;
+import singletones.MySingletone;
 
 /**
  *
@@ -30,6 +34,7 @@ public class GameState extends State{
 
     private Player player;
     private Creature slowZombie;
+    private Creature slowZombieTest, slowZombieTest2,slowZombieTest3;
     private Creature fastZombie;
     private Creature rangerZombie;
     private World world;
@@ -38,6 +43,9 @@ public class GameState extends State{
     private Creature dc;
     private AzureConnection con;
     
+    AbstractEnemyFactory enemyFactor ;
+            
+    private long lastTimer, cooldown = 800, timer = cooldown;
     
     
     public GameState(Handler handler){
@@ -47,34 +55,31 @@ public class GameState extends State{
         handler.setWorld(world);
         //Skin
         IPlayerSkin player1 = new RedSkin(null);
-        player = new Player(player1.draw(), handler, 100, 100, true);
-        
-        JSONParser jsonobj = new CreatureJSONAdapter(player);
-        
-        jsonobj.getandsetHealth();
-        jsonobj.getandsetSpeed();
-        System.out.println(jsonobj.showJSONobject());
+        player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
         
         
         //Factory
-        slowZombie = factory.createEnemy("SlowZombie", handler, 65, 200);
-        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65); 
+        slowZombie = factory.createEnemy("SlowZombie", handler, 0, 0, "SimpleBomb");
+        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65, "SimpleBomb"); 
+        EnemiesFacade enemyPoints = new EnemiesFacade();
+        enemyPoints.killFastZombie();
+        enemyPoints.killSlowZombie();
 //        slowZombie = new SlowZombie(handler, 65, 200);
 //        fastZombie = new FastZombie(handler, 200, 64);
 
 
         //Abstract factory
-        AbstractEnemyFactory enemyFactor = new LevelFactory1();           
-        slowZombie = enemyFactor.createMelee(handler, 65, 200);
+        enemyFactor = new LevelFactory1();           
+//        slowZombie = enemyFactor.createMelee(handler, 0, 0);
         rangerZombie = enemyFactor.createRange(handler, 65, 200); 
 
-        System.out.println("1) " + System.identityHashCode(fastZombie));
+        System.out.println("1) Original Fast zombie: " + System.identityHashCode(fastZombie) + ", Zombie bomb: " + System.identityHashCode(fastZombie.getBombs()));
         sc = fastZombie.shallowCopy(); //ShallowCopy
         sc.setX(800); //ShallowCopy test
-        System.out.println("2) " + System.identityHashCode(sc));
+        System.out.println("2) Fast zombie shallow copy: " + System.identityHashCode(sc) + ", Zombie bomb: " + System.identityHashCode(sc.getBombs()));
         dc = fastZombie.deepCopy();  //DeepCopy
         dc.setX(500); //DeepCopy test
-        System.out.println("3) " + System.identityHashCode(dc));
+        System.out.println("3) Fast zombie deep copy: " + System.identityHashCode(dc) + ", Zombie bomb: " + System.identityHashCode(dc.getBombs()));
         
         //Strategy
         rangerZombie.attackList.add(new Slash()); 
@@ -90,6 +95,7 @@ public class GameState extends State{
         fastZombie.tick();
         sc.tick();
         dc.tick();
+        checkAlgorithms();
         //fastZombie.attack(); //strategy
     }
 
@@ -101,7 +107,89 @@ public class GameState extends State{
         fastZombie.render(g);
         sc.render(g);
         dc.render(g);
+        if(slowZombieTest != null)
+            slowZombieTest.render(g);
+        if(slowZombieTest2 != null)
+            slowZombieTest2.render(g);
+        if(slowZombieTest3 != null)
+            slowZombieTest3.render(g);
         
     }
     
+      private void checkAlgorithms()
+    {
+        MySingletone points = MySingletone.getInstance();
+        timer += System.currentTimeMillis() - lastTimer;
+        lastTimer = System.currentTimeMillis();
+        if(timer < cooldown)
+            return;
+        
+        if(handler.getKeyManager().a1)
+        {
+           points.activity(100);
+           System.out.println("Singletone");
+           System.out.println(points.getPoints()); 
+        }     
+        else if(handler.getKeyManager().a2)
+        {
+          slowZombieTest = enemyFactor.createMelee(handler, 65, 200);  
+          System.out.println("Factory new zombie");
+        }  
+        else if(handler.getKeyManager().a3)
+        {
+            enemyFactor = new LevelFactory2();   
+            slowZombieTest2 = enemyFactor.createRange(handler, 0, 0); 
+            System.out.println("Abstract factory new zombie");
+        }
+        else if(handler.getKeyManager().a4)
+        {
+            fastZombie.attack();
+            System.out.println("Strategy");
+        }
+        else if(handler.getKeyManager().a5)
+        {
+            System.out.println("Observer");
+        }
+        else if(handler.getKeyManager().a6)
+        {
+            ZombieBuilder builder = new ZombieBuilder();
+            slowZombieTest3 = builder.addSlow().buildEnemy();
+            System.out.println("Builder");
+        }
+        else if(handler.getKeyManager().a7)
+        {
+            System.out.println("Prototype");
+        }
+        else if(handler.getKeyManager().a8)
+        {
+            IPlayerSkin player1 = new RedSkin(null);
+            slowZombieTest2 = new Player("Bombermenas", player1.draw(), handler, 0, 0, true);
+            System.out.println("Decorator");
+        }
+        else if(handler.getKeyManager().a9)
+        {
+            JSONParser jsonobj = new CreatureJSONAdapter(player);
+
+            jsonobj.getandsetHealth();
+            jsonobj.getandsetSpeed();
+            System.out.println("Adapter");
+            System.out.println(jsonobj.showJSONobject());
+            
+        }
+        else if(handler.getKeyManager().f1)
+        {  
+            Random r = new Random();
+            System.out.println("1) Original Fast zombie: " + System.identityHashCode(fastZombie) + ", Zombie bomb: " + System.identityHashCode(fastZombie.getBombs()));
+            sc = fastZombie.shallowCopy(); //ShallowCopy
+            sc.setX(r.nextInt(800)); //ShallowCopy test
+            System.out.println("2) Fast zombie shallow copy: " + System.identityHashCode(sc) + ", Zombie bomb: " + System.identityHashCode(sc.getBombs()));
+            dc = fastZombie.deepCopy();  //DeepCopy
+            dc.setX(r.nextInt(800)); //DeepCopy test
+            System.out.println("Prototype");
+        }
+        else
+            return;
+        
+        timer = 0;
+    }
 }

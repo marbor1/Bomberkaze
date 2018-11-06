@@ -5,7 +5,7 @@
  */
 package game.entities.creatures;
 
-import game.strategy.Shoot;
+import game.strategy.ShootGun;
 import game.Handler;
 import game.gfx.Assets;
 import java.awt.Graphics;
@@ -17,7 +17,7 @@ import singletones.MySingletone;
  */
 public abstract class Range extends Creature{
      public Range(Handler handler, float x, float y){
-        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, false);
+        super("Ranger", handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, false);
     
         bounds.x = 59;
         bounds.y = 24;
@@ -25,7 +25,7 @@ public abstract class Range extends Creature{
         bounds.height = 40;
         
         //Strategy sablono ataka
-        this.attackList.add(new Shoot());
+        this.attackList.add(new ShootGun());
     }
 
 //    @Override

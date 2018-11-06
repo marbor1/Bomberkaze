@@ -15,16 +15,16 @@ import game.entities.creatures.Creature;
 public class Director {
     private IBuilder builder;
     
-    public Creature getSlowZombie(Handler handler, int x, int y)
+    public Creature getSlowZombie(Handler handler, int x, int y, String bombType)
     {
         builder = new ZombieBuilder();
-        return builder.startNew(handler, x, y).addSlow().buildEnemy();
+        return builder.startNew(handler, x, y).addSlow().addBombs(bombType).buildEnemy();
         //return null;
     }
     
-    public Creature getFastZombie(Handler handler, int x, int y)
+    public Creature getFastZombie(Handler handler, int x, int y, String bombType)
     {
         builder = new ZombieBuilder();
-        return builder.startNew(handler, x, y).addFast().buildEnemy();
+        return builder.startNew(handler, x, y).addFast().addBombs(bombType).buildEnemy();
     }
 }

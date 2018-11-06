@@ -3,17 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.strategy;
+package game.input;
+
+import game.entities.creatures.Player;
 
 /**
  *
  * @author Kompas
  */
-public class Shoot implements IAttackAlgorithm{
-
-    @Override
-    public void attackType() {
-        System.out.println("Shoot attack");
-    }
+public abstract class Command {
     
+    public abstract void execute(Player actor);
 }
