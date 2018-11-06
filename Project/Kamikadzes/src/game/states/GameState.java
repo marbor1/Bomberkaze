@@ -156,6 +156,8 @@ public class GameState extends State{
         }
         else if(handler.getKeyManager().a8)
         {
+            IPlayerSkin player1 = new RedSkin(null);
+            slowZombieTest2 = new Player("Bombermenas", player1.draw(), handler, 0, 0, true);
             System.out.println("Decorator");
         }
         else
