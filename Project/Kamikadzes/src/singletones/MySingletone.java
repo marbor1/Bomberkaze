@@ -14,13 +14,11 @@ public class MySingletone{
 	} 
 	
 	public static MySingletone getInstance() { 
-		//System.out.println("Smart Singleton initialized via Holder");
 		return SingletonHolder.instance; 
 	} 	
 
 	public void activity(int addPoints) {
 		SingletonHolder.points += addPoints;
-		//System.out.println("Smart Singleton activity");
 	}
         public int getPoints()
         {

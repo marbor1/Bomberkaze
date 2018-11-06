@@ -12,6 +12,7 @@ import game.gfx.Assets;
 import game.input.Command;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import singletones.MySingletone;
 
@@ -51,6 +52,7 @@ public class Player extends Creature implements IPlayerSkin{
         points.activity((int)yMove);
         points.activity((int)xMove);
         checkAttacks();
+//        checkAlgorithms();
        // System.out.println(points.getPoints());
        
     }
@@ -72,6 +74,8 @@ public class Player extends Creature implements IPlayerSkin{
         attackTimer = 0;
     }
     
+  
+    
     private void getInput(){
         xMove = 0;
         yMove = 0;
@@ -83,7 +87,8 @@ public class Player extends Creature implements IPlayerSkin{
         if(handler.getKeyManager().left)
             xMove = -speed;
         if(handler.getKeyManager().right)
-            xMove = speed;               
+            xMove = speed;     
+    
     }
     
     @Override

@@ -24,29 +24,15 @@ public abstract class Melee extends Creature{
         bounds.width = 25;
         bounds.height = 40;
         
-        //Strategy sablono ataka
         this.attackList.add(new Slash());
         
     }
-
-//    @Override
-//    public void tick() {
-//       
-//    }
-
     private void getInput(){
         xMove = 1;
-        yMove = 1;
-        
-
+        yMove = 1; 
     }
-    
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
-    
-        //g.setColor(Color.red);
-        //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
     }
-    
 }
