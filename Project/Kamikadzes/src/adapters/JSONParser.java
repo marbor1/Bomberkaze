@@ -9,9 +9,11 @@ package adapters;
  *
  * @author a.pocius
  */
-public interface Enemy {
+public interface JSONParser {
+    public void getandsetHealth();
+    public void getandsetSpeed();
+    public void setHealth(int health);
+    public void setSpeed(float speed);
+    public String showJSONobject();
     
-    public void attack();
-    public void move();
-    public void destroy();
 }

@@ -23,8 +23,8 @@ public class Player extends Creature implements IPlayerSkin{
 
     protected BufferedImage skin;
     
-    public Player(BufferedImage skin, Handler handler, float x, float y, boolean hero, Bomb bomb){
-        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero, bomb);
+    public Player(BufferedImage skin, Handler handler, float x, float y, boolean hero){
+        super(handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
     
         if (skin == null )
         {
@@ -81,9 +81,5 @@ public class Player extends Creature implements IPlayerSkin{
     public BufferedImage draw() {
         return null;
     }
-    
-    public void addBomb(){
-        bomb.addBomb();
-    }
-    
+   
 }
