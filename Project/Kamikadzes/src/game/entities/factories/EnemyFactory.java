@@ -14,7 +14,7 @@ import game.entities.creatures.Enemies.SlowZombie;
  *
  * @author nugal
  */
-public class EnemyFactory implements IEnemyFactory{
+public class EnemyFactory implements IFactory{
     
     Director dir = new Director();
     

@@ -5,13 +5,13 @@
  */
 package game.entities.factories;
 import game.Handler;
-import game.entities.creatures.Creature;
+import game.entities.*;
 /**
  *
  * @author nugal
  */
-public interface IEnemyFactory {
+public interface IFactory {
     
-    public Creature createEnemy(String type, Handler handler, int x, int y, String BombsType);
+    public Entity createEnemy(String type, Handler handler, int x, int y, String BombsType);
     
 }

@@ -152,6 +152,10 @@ public abstract class Creature extends Entity implements Cloneable {
         return this.bombs;
     }
     
+        public String getBomb(){
+        return this.bombs.type;
+    }
+    
     public void putBomb(){
         System.out.println("Command");
         System.out.println(this.name + " padejo bomba");
