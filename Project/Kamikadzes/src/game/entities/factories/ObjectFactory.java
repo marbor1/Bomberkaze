@@ -20,7 +20,6 @@ public class ObjectFactory implements IFactory{
     public Objectas createEnemy(String type, Handler handler, int x, int y, String BombsType) {
             if(type.equals("Box")){
             return new Box(handler, x, y);
-            //return new FastZombie(handler, x, y);
         }
 
         return null;

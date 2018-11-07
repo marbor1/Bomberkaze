@@ -168,7 +168,7 @@ public class GameState extends State{
             System.out.println("Sukurtas creature: " + slowZombieTest2.getName() + " " + slowZombieTest2.getX() + " " + slowZombieTest2.getY());
             System.out.println("============================================");
         }  
-        else if(handler.getKeyManager().a9)
+        else if(handler.getKeyManager().a3)
         {
             System.out.println("Factory demo");
             ObjectFactory objFact = new ObjectFactory();
@@ -176,7 +176,7 @@ public class GameState extends State{
             System.out.println("Sukurtas object: " + box.getName() + " " + box.getX() + " " + box.getY());
             System.out.println("============================================");
         }
-        else if(handler.getKeyManager().a3)
+        else if(handler.getKeyManager().a4)
         {
             System.out.println("Strategy");
             System.out.println("Atlieka atakas po sukurimo " + slowZombieTest.getName() + " " + slowZombieTest.getX() + " " + slowZombieTest.getY());
@@ -189,12 +189,7 @@ public class GameState extends State{
             slowZombieTest.attack();
             System.out.println("============================================");
         }
-        else if(handler.getKeyManager().a8)
-        {
-            System.out.println("Tuscias demo");
-            System.out.println("============================================");
-        }
-        else if(handler.getKeyManager().a4)
+        else if(handler.getKeyManager().a5)
         {
             System.out.println("Builder demo");
             
@@ -208,7 +203,7 @@ public class GameState extends State{
             
             System.out.println("============================================");
         }
-        else if(handler.getKeyManager().a5)
+        else if(handler.getKeyManager().a6)
         {
             System.out.println("Prototype demo");
             Random r = new Random();
@@ -222,14 +217,14 @@ public class GameState extends State{
             System.out.println("============================================");
             
         }
-        else if(handler.getKeyManager().a6)
+        else if(handler.getKeyManager().a7)
         {
             System.out.println("Decorator demo");
             IPlayerSkin player1 = new RedSkin(null);
             player = new Player("Bombermenas", player1.draw(), handler, player.getX(), player.getY(), true);            
             System.out.println("============================================");
         }
-        else if(handler.getKeyManager().a7)
+        else if(handler.getKeyManager().a8)
         {
             System.out.println("Adapter demo");
             JSONParser jsonobj = new CreatureJSONAdapter(player);
