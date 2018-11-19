@@ -19,7 +19,6 @@ public abstract class PlayerSkinDecorator implements IPlayerSkin{
     public BufferedImage draw()
     {
         return null;
-//        return "b";
 //        return "super view " + skin.draw();
     }
     

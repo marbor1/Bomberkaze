@@ -3,17 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package game.strategy;
+package bridge;
 
 /**
  *
- * @author Kompas
+ * @author a.pocius
  */
-public class Shoot implements IAttackAlgorithm{
-
-    @Override
-    public void attackType() {
-        System.out.println("Shoot attack");
-    }
+public interface Bomb {
     
+    public void addBomb();
 }

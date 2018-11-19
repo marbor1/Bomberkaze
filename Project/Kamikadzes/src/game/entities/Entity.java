@@ -22,14 +22,16 @@ public abstract class Entity {
     protected Rectangle bounds;
     
     protected final boolean hero;
+    protected String name;
     
-    public Entity(Handler handler, float x, float y, int width, int height, boolean hero){
+    public Entity(String name, Handler handler, float x, float y, int width, int height, boolean hero){
         this.handler = handler;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.hero = hero;
+        this.name = name;
         
         bounds = new Rectangle(0,0, width, height);
         
@@ -66,6 +68,10 @@ public abstract class Entity {
     }
     public void setHeight(int height){
         this.height = height;
+    }
+        
+    public String getName(){
+        return name;
     }
     
 
