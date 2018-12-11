@@ -16,6 +16,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import singletones.MySingletone;
+import visitor.Visitors;
 
 /**
  *
@@ -109,6 +110,11 @@ public class Player extends Creature implements IPlayerSkin{
     @Override
     public BufferedImage draw() {
         return null;
+    }
+
+    @Override
+    public void accaptVisitor(Visitors visitor) {
+       
     }
    
 }

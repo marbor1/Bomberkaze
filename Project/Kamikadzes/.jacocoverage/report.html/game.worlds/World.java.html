@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>World.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Kamikadzes&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">game.worlds</a> &gt; <span class="el_source">World.java</span></div><h1>World.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package game.worlds;
+
+import game.Game;
+import game.Handler;
+import game.tiles.Tile;
+import game.utils.Utils;
+import java.awt.Graphics;
+
+/**
+ *
+ * @author Mantvydas
+ */
+public class World {
+    
+    private Handler handler;
+    private int width, height;
+    private int spawnX, spawnY;
+    private int[][] tiles;
+    
+<span class="fc" id="L25">    public World(Handler handler, String path){</span>
+<span class="fc" id="L26">        this.handler = handler;</span>
+<span class="fc" id="L27">        loadWorld(path);</span>
+        
+<span class="fc" id="L29">    }</span>
+    
+    public void tick(){
+        
+<span class="fc" id="L33">    }</span>
+    
+    public void render(Graphics g){
+<span class="fc" id="L36">        int xStart = 0;</span>
+<span class="fc" id="L37">        int xEnd = width;</span>
+<span class="fc" id="L38">        int yStart = 0;</span>
+<span class="fc" id="L39">        int yEnd = height;</span>
+        
+        
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        for(int y = yStart; y &lt; yEnd; y++){</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            for(int x = xStart; x &lt; xEnd; x++){</span>
+<span class="fc" id="L44">                getTile(x,y).render(g, x * Tile.TILEWIDTH, y * Tile.TILEHEIGHT);</span>
+            }
+        }
+<span class="fc" id="L47">    }</span>
+    public Tile getTile(int x, int y){
+<span class="pc bpc" id="L49" title="4 of 8 branches missed.">        if(x &lt; 0 || y &lt; 0 || x &gt;= width || y &gt;= height)</span>
+<span class="nc" id="L50">            return Tile.grassTile; // To prevent errors</span>
+        
+<span class="fc" id="L52">        Tile t = Tile.tiles[tiles[x][y]];</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        if(t == null)</span>
+<span class="nc" id="L54">            return Tile.grassTile;</span>
+<span class="fc" id="L55">        return t;</span>
+    }
+    
+    private void loadWorld(String path){
+<span class="fc" id="L59">        String file = Utils.loadFileAsString(path);</span>
+<span class="fc" id="L60">        String[] tokens = file.split(&quot;\\s+&quot;);</span>
+<span class="fc" id="L61">        width = Utils.parseInt(tokens[0]);</span>
+<span class="fc" id="L62">        height = Utils.parseInt(tokens[1]);</span>
+<span class="fc" id="L63">        spawnX = Utils.parseInt(tokens[2]);</span>
+<span class="fc" id="L64">        spawnY = Utils.parseInt(tokens[3]);</span>
+<span class="fc" id="L65">        tiles = new int[width][height];</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        for(int y = 0; y &lt; height; y++){</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">            for(int x = 0; x &lt; width; x++){</span>
+<span class="fc" id="L68">                tiles[x][y] = Utils.parseInt(tokens[(x + y * width) + 4]);</span>
+            }
+        }
+<span class="fc" id="L71">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

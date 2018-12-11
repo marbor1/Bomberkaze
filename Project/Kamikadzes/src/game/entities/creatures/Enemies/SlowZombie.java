@@ -10,13 +10,14 @@ import game.entities.creatures.Melee;
 import game.gfx.Assets;
 import java.awt.Graphics;
 import singletones.MySingletone;
+import visitor.Visitors;
 
 /**
  *
  * @author nugal
  */
 public class SlowZombie extends Melee{
-    
+    public String name = "slowPo" + Math.random()*1000;
      public SlowZombie(Handler handler, float x, float y){
         super(handler, x, y);
         
@@ -55,4 +56,5 @@ public class SlowZombie extends Melee{
         points.activity(100);
         System.out.println(points.getPoints());
     }
+
 }

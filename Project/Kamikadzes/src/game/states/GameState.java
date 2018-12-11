@@ -27,6 +27,7 @@ import game.entities.builders.Director;
 import game.entities.objects.Box;
 import java.util.Random;
 import singletones.MySingletone;
+import visitor.*;
 
 /**
  *
@@ -59,6 +60,8 @@ public class GameState extends State{
         handler.setWorld(world);
         //Skin
         IPlayerSkin player1 = new BlueSkin(null);
+        player1.accaptVisitor(new Spawn());
+        player1.accaptVisitor(new Death());
         player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
         
         //Box
@@ -224,6 +227,8 @@ public class GameState extends State{
         {
             System.out.println("Decorator demo");
             IPlayerSkin player1 = new RedSkin(null);
+            player1.accaptVisitor(new Spawn());
+            player1.accaptVisitor(new Death());
             player = new Player("Bombermenas", player1.draw(), handler, player.getX(), player.getY(), true);            
             System.out.println("============================================");
         }

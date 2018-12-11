@@ -14,6 +14,7 @@ import game.tiles.Tile;
 import game.tiles.Physics;
 import java.util.ArrayList;
 import java.util.List;
+import visitor.Visitors;
 
 /**
  *
@@ -160,4 +161,5 @@ public abstract class Creature extends Entity implements Cloneable {
         System.out.println("Command");
         System.out.println(this.name + " padejo bomba");
     }
+
 }
