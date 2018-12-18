@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Achievements.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Kamikadzes&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">game.observer</a> &gt; <span class="el_source">Achievements.java</span></div><h1>Achievements.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package game.observer;
+
+import game.entities.Entity;
+import game.entities.creatures.Player;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author Kompas
+ */
+public class Achievements implements IObserver{
+
+<span class="nc" id="L19">    private enum Achievement{</span>
+<span class="nc" id="L20">        IVYKO_KOLIZIJA;</span>
+    }
+    
+    private final List&lt;Achievement&gt; achievements;
+    
+    public Achievements()
+<span class="fc" id="L26">    {</span>
+<span class="fc" id="L27">        achievements = new ArrayList&lt;Achievement&gt;();</span>
+<span class="fc" id="L28">    }</span>
+    
+    @Override
+    public void update(Entity entity, Event event) {
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        switch(event)</span>
+        {
+            case KOLIZIJA:
+<span class="nc bnc" id="L35" title="All 2 branches missed.">                if(entity.isHero())</span>
+                {
+<span class="nc" id="L37">                    unlock(Achievement.IVYKO_KOLIZIJA, entity);</span>
+                }
+        }
+<span class="nc" id="L40">    }</span>
+    
+    private void unlock(Achievement achievement, Entity player)
+    {
+<span class="nc bnc" id="L44" title="All 2 branches missed.">        if(!achievements.contains(achievement))</span>
+        {
+<span class="nc" id="L46">            achievements.add(achievement);</span>
+<span class="nc" id="L47">            System.out.println(player.getName() + &quot; Gavo achievementa &quot; + achievement.name());</span>
+        }
+<span class="nc" id="L49">    }</span>
+    
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

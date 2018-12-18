@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>GameState.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Kamikadzes&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">game.states</a> &gt; <span class="el_source">GameState.java</span></div><h1>GameState.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package game.states;
+
+
+import game.Handler;
+import game.entities.builders.ZombieBuilder;
+import game.entities.creatures.*;
+import game.entities.creatures.Enemies.*;
+import game.entities.creatures.levels.*;
+import game.entities.creatures.playerSkins.*;
+import game.entities.factories.*;
+import game.gfx.Assets;
+import game.observer.Achievements;
+import game.strategy.*;
+import game.tiles.Physics;
+import game.tiles.Tile;
+import game.worlds.World;
+import java.awt.Graphics;
+import Multiplayer.AzureConnection;
+import adapters.CreatureJSONAdapter;
+import adapters.JSONParser;
+import game.entities.builders.Director;
+import game.entities.objects.Box;
+import java.util.Random;
+import singletones.MySingletone;
+
+/**
+ *
+ * @author Mantvydas
+ */
+public class GameState extends State{
+
+    private Player player;
+    private Box box;
+    private Creature slowZombie;
+    private Creature slowZombieTest, slowZombieTest2,slowZombieTest3;
+    private Creature fastZombie;
+    private Creature rangerZombie;
+    private World world;
+<span class="fc" id="L44">    private IFactory factory = new EnemyFactory();</span>
+    private Creature sc;
+    private Creature dc;
+    private AzureConnection con;
+    
+    
+    AbstractEnemyFactory enemyFactor ;
+            
+<span class="fc" id="L52">    private long lastTimer, cooldown = 800, timer = cooldown;</span>
+    
+    
+    public GameState(Handler handler){
+<span class="fc" id="L56">        super(handler);</span>
+        
+<span class="fc" id="L58">        world = new World(handler, &quot;res/worlds/world1.txt&quot;);</span>
+<span class="fc" id="L59">        handler.setWorld(world);</span>
+        //Skin
+<span class="fc" id="L61">        IPlayerSkin player1 = new BlueSkin(null);</span>
+<span class="fc" id="L62">        player = new Player(&quot;Bombermenas&quot;, player1.draw(), handler, 100, 100, true);</span>
+        
+        //Box
+        //box = new Box(handler, 100, 400);
+        
+        //Factory
+        /*slowZombie = factory.createEnemy(&quot;SlowZombie&quot;, handler, 0, 0, &quot;SimpleBomb&quot;);
+        fastZombie = factory.createEnemy(&quot;FastZombie&quot;, handler, 100, 65, &quot;SimpleBomb&quot;); 
+        EnemiesFacade enemyPoints = new EnemiesFacade();
+        enemyPoints.killFastZombie();
+        enemyPoints.killSlowZombie();
+//        ZombieAtackAdapter adapter = new ZombieAtackAdapter(rangerZombie);
+        
+        
+//        slowZombie = new SlowZombie(handler, 65, 200);
+//        fastZombie = new FastZombie(handler, 200, 64);
+
+
+        //Abstract factory
+        enemyFactor = new LevelFactory1();           
+//        slowZombie = enemyFactor.createMelee(handler, 0, 0);
+        rangerZombie = enemyFactor.createRange(handler, 65, 200); 
+
+        System.out.println(&quot;1) Original Fast zombie: &quot; + System.identityHashCode(fastZombie) + &quot;, Zombie bomb: &quot; + System.identityHashCode(fastZombie.getBombs()));
+        sc = fastZombie.shallowCopy(); //ShallowCopy
+        sc.setX(800); //ShallowCopy test
+        System.out.println(&quot;2) Fast zombie shallow copy: &quot; + System.identityHashCode(sc) + &quot;, Zombie bomb: &quot; + System.identityHashCode(sc.getBombs()));
+        dc = fastZombie.deepCopy();  //DeepCopy
+        dc.setX(500); //DeepCopy test
+        System.out.println(&quot;3) Fast zombie deep copy: &quot; + System.identityHashCode(dc) + &quot;, Zombie bomb: &quot; + System.identityHashCode(dc.getBombs()));
+        
+        //Strategy
+        rangerZombie.attackList.add(new Slash()); 
+        //rangerZombie.attackList.remove(0);
+*/
+<span class="fc" id="L97">    }   </span>
+    
+    @Override
+    public void tick() {
+<span class="fc" id="L101">        world.tick();</span>
+<span class="fc" id="L102">        player.tick();</span>
+        
+       /* rangerZombie.tick();
+        //rangerZombie.attack(); //strategy
+        fastZombie.tick();
+        sc.tick();
+        dc.tick();*/
+<span class="fc" id="L109">        checkAlgorithms();</span>
+<span class="pc bpc" id="L110" title="1 of 2 branches missed.">                if(slowZombieTest != null)</span>
+<span class="nc" id="L111">            slowZombieTest.tick();</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">        if(slowZombieTest2 != null)</span>
+<span class="nc" id="L113">            slowZombieTest2.tick();</span>
+<span class="pc bpc" id="L114" title="1 of 2 branches missed.">        if(slowZombieTest3 != null)</span>
+<span class="nc" id="L115">            slowZombieTest3.tick();</span>
+<span class="pc bpc" id="L116" title="1 of 2 branches missed.">        if(sc != null)</span>
+<span class="nc" id="L117">            sc.tick();</span>
+<span class="pc bpc" id="L118" title="1 of 2 branches missed.">        if(dc != null)</span>
+<span class="nc" id="L119">            dc.tick();</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">        if(box != null)</span>
+<span class="nc" id="L121">            box.tick();</span>
+        //fastZombie.attack(); //strategy
+<span class="fc" id="L123">    }</span>
+
+    @Override
+    public void render(Graphics g) {
+<span class="fc" id="L127">        world.render(g);</span>
+<span class="fc" id="L128">        player.render(g);</span>
+       /* rangerZombie.render(g);
+        fastZombie.render(g);
+        sc.render(g);
+        dc.render(g);*/
+<span class="pc bpc" id="L133" title="1 of 2 branches missed.">        if(slowZombieTest != null)</span>
+<span class="nc" id="L134">            slowZombieTest.render(g);</span>
+<span class="pc bpc" id="L135" title="1 of 2 branches missed.">        if(slowZombieTest2 != null)</span>
+<span class="nc" id="L136">            slowZombieTest2.render(g);</span>
+<span class="pc bpc" id="L137" title="1 of 2 branches missed.">        if(slowZombieTest3 != null)</span>
+<span class="nc" id="L138">            slowZombieTest3.render(g);</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">        if(sc != null)</span>
+<span class="nc" id="L140">            sc.render(g);</span>
+<span class="pc bpc" id="L141" title="1 of 2 branches missed.">        if(dc != null)</span>
+<span class="nc" id="L142">            dc.render(g);</span>
+<span class="pc bpc" id="L143" title="1 of 2 branches missed.">        if(box != null)</span>
+<span class="nc" id="L144">            box.render(g);</span>
+        
+<span class="fc" id="L146">    }</span>
+    
+      private void checkAlgorithms()
+    {
+<span class="fc" id="L150">        MySingletone points = MySingletone.getInstance();</span>
+<span class="fc" id="L151">        timer += System.currentTimeMillis() - lastTimer;</span>
+<span class="fc" id="L152">        lastTimer = System.currentTimeMillis();</span>
+<span class="pc bpc" id="L153" title="1 of 2 branches missed.">        if(timer &lt; cooldown)</span>
+<span class="nc" id="L154">            return;</span>
+        
+<span class="pc bpc" id="L156" title="1 of 2 branches missed.">        if(handler.getKeyManager().a1)</span>
+        {
+<span class="nc" id="L158">           System.out.println(&quot;Singletone demo&quot;);</span>
+<span class="nc" id="L159">           System.out.println(&quot;Taskai pries pridejima &quot; + points.getPoints());</span>
+<span class="nc" id="L160">           points.activity(100);</span>
+<span class="nc" id="L161">           System.out.println(&quot;Taskai po &quot; + points.getPoints()); </span>
+<span class="nc" id="L162">           System.out.println(&quot;============================================&quot;);</span>
+        }     
+<span class="pc bpc" id="L164" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a2)</span>
+        {
+<span class="nc" id="L166">            System.out.println(&quot;Abstract factory demo&quot;);</span>
+<span class="nc" id="L167">            enemyFactor = new LevelFactory2();   </span>
+<span class="nc" id="L168">            slowZombieTest = enemyFactor.createRange(handler, 300, 200); </span>
+<span class="nc" id="L169">            System.out.println(&quot;Sukurtas creature: &quot; + slowZombieTest.getName() + &quot; &quot; + slowZombieTest.getX() + &quot; &quot; + slowZombieTest.getY());</span>
+<span class="nc" id="L170">            slowZombieTest2 = enemyFactor.createMelee(handler, 65, 200);  </span>
+<span class="nc" id="L171">            System.out.println(&quot;Sukurtas creature: &quot; + slowZombieTest2.getName() + &quot; &quot; + slowZombieTest2.getX() + &quot; &quot; + slowZombieTest2.getY());</span>
+<span class="nc" id="L172">            System.out.println(&quot;============================================&quot;);</span>
+        }  
+<span class="pc bpc" id="L174" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a3)</span>
+        {
+<span class="nc" id="L176">            System.out.println(&quot;Factory demo&quot;);</span>
+<span class="nc" id="L177">            ObjectFactory objFact = new ObjectFactory();</span>
+<span class="nc" id="L178">            box = (Box) objFact.createEnemy(&quot;Box&quot;, handler, 100, 400, &quot;&quot;);</span>
+<span class="nc" id="L179">            System.out.println(&quot;Sukurtas object: &quot; + box.getName() + &quot; &quot; + box.getX() + &quot; &quot; + box.getY());</span>
+<span class="nc" id="L180">            System.out.println(&quot;============================================&quot;);</span>
+<span class="nc" id="L181">        }</span>
+<span class="pc bpc" id="L182" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a4)</span>
+        {
+<span class="nc" id="L184">            System.out.println(&quot;Strategy&quot;);</span>
+<span class="nc" id="L185">            System.out.println(&quot;Atlieka atakas po sukurimo &quot; + slowZombieTest.getName() + &quot; &quot; + slowZombieTest.getX() + &quot; &quot; + slowZombieTest.getY());</span>
+<span class="nc" id="L186">            slowZombieTest.attack();</span>
+<span class="nc" id="L187">            System.out.println(&quot;Atlieka atakas po papildomos atakos pridejimo &quot; + slowZombieTest.getName() + &quot; &quot; + slowZombieTest.getX() + &quot; &quot; + slowZombieTest.getY());</span>
+<span class="nc" id="L188">            slowZombieTest.attackList.add(new Slash());</span>
+<span class="nc" id="L189">            slowZombieTest.attack();</span>
+<span class="nc" id="L190">            System.out.println(&quot;Atlieka atakas po pirmos atakos pasalinimo &quot; + slowZombieTest.getName() + &quot; &quot; + slowZombieTest.getX() + &quot; &quot; + slowZombieTest.getY());</span>
+<span class="nc" id="L191">            slowZombieTest.attackList.remove(0);</span>
+<span class="nc" id="L192">            slowZombieTest.attack();</span>
+<span class="nc" id="L193">            System.out.println(&quot;============================================&quot;);</span>
+        }
+<span class="pc bpc" id="L195" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a5)</span>
+        {
+<span class="nc" id="L197">            System.out.println(&quot;Builder demo&quot;);</span>
+            
+<span class="nc" id="L199">            Director dir = new Director();</span>
+<span class="nc" id="L200">            slowZombieTest3 = dir.getFastZombie(handler, 200, 200, &quot;SimpleBomb&quot;);</span>
+<span class="nc" id="L201">            System.out.println(&quot;Sukurtas creature: &quot; + slowZombieTest3.getName() + &quot; &quot; + slowZombieTest3.getX() + &quot; &quot; + slowZombieTest3.getY() + &quot; &quot; + slowZombieTest3.getBomb());</span>
+           // slowZombieTest3 = builder.addSlow().buildEnemy();
+           
+            // slowZombieTest3 = factory.createEnemy(&quot;SlowZombie&quot;, handler, 250, 250, &quot;SimpleBomb&quot;);
+        
+            
+<span class="nc" id="L207">            System.out.println(&quot;============================================&quot;);</span>
+<span class="nc" id="L208">        }</span>
+<span class="pc bpc" id="L209" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a6)</span>
+        {
+<span class="nc" id="L211">            System.out.println(&quot;Prototype demo&quot;);</span>
+<span class="nc" id="L212">            Random r = new Random();</span>
+<span class="nc" id="L213">            System.out.println(&quot;1) Original zombie: &quot; + slowZombieTest3.getName() + &quot; &quot; + System.identityHashCode(slowZombieTest) + &quot;, Zombie bomb: &quot; + System.identityHashCode(slowZombieTest3.getBombs()));</span>
+<span class="nc" id="L214">            sc = slowZombieTest3.shallowCopy(); //ShallowCopy</span>
+<span class="nc" id="L215">            sc.setX(r.nextInt(800)); //ShallowCopy test</span>
+<span class="nc" id="L216">            System.out.println(&quot;2) zombie shallow copy: &quot; + slowZombieTest3.getName() + &quot; &quot; + System.identityHashCode(sc) + &quot;, Zombie bomb: &quot; + System.identityHashCode(sc.getBombs()));</span>
+<span class="nc" id="L217">            dc = slowZombieTest3.deepCopy();  //DeepCopy</span>
+<span class="nc" id="L218">            dc.setX(r.nextInt(800)); //DeepCopy test        </span>
+<span class="nc" id="L219">            System.out.println(&quot;2) zombie deep copy: &quot; + slowZombieTest3.getName() + &quot; &quot; + System.identityHashCode(dc) + &quot;, Zombie bomb: &quot; + System.identityHashCode(dc.getBombs()));</span>
+<span class="nc" id="L220">            System.out.println(&quot;============================================&quot;);</span>
+            
+<span class="nc" id="L222">        }</span>
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a7)</span>
+        {
+<span class="nc" id="L225">            System.out.println(&quot;Decorator demo&quot;);</span>
+<span class="nc" id="L226">            IPlayerSkin player1 = new RedSkin(null);</span>
+<span class="nc" id="L227">            player = new Player(&quot;Bombermenas&quot;, player1.draw(), handler, player.getX(), player.getY(), true);            </span>
+<span class="nc" id="L228">            System.out.println(&quot;============================================&quot;);</span>
+<span class="nc" id="L229">        }</span>
+<span class="pc bpc" id="L230" title="1 of 2 branches missed.">        else if(handler.getKeyManager().a8)</span>
+        {
+<span class="nc" id="L232">            System.out.println(&quot;Adapter demo&quot;);</span>
+<span class="nc" id="L233">            JSONParser jsonobj = new CreatureJSONAdapter(player);</span>
+
+<span class="nc" id="L235">            jsonobj.getandsetHealth();</span>
+<span class="nc" id="L236">            jsonobj.getandsetSpeed();</span>
+            
+<span class="nc" id="L238">            System.out.println(jsonobj.showJSONobject());</span>
+<span class="nc" id="L239">            System.out.println(&quot;============================================&quot;);</span>
+            
+<span class="nc" id="L241">        }</span>
+        else
+<span class="fc" id="L243">            return;</span>
+        
+<span class="nc" id="L245">        timer = 0;</span>
+<span class="nc" id="L246">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
