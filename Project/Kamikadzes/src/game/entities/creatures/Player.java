@@ -5,6 +5,7 @@
  */
 package game.entities.creatures;
 
+import Multiplayer.Packet02Move;
 import bridge.Bomb;
 import game.Game;
 import game.Handler;
@@ -15,6 +16,8 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.net.InetAddress;
+
 import singletones.MySingletone;
 
 /**
@@ -22,6 +25,11 @@ import singletones.MySingletone;
  * @author Mantvydas
  */
 public class Player extends Creature implements IPlayerSkin{
+
+    private int index;
+
+    public InetAddress ipAdress;
+    public int port;
 
     protected BufferedImage skin;
     private Command command;
@@ -46,8 +54,13 @@ public class Player extends Creature implements IPlayerSkin{
 
     @Override
     public void tick() {
+
         getInput();
         move();
+
+        Packet02Move packet = new Packet02Move(this.getName(), this.x, this.y);
+        packet.writeData(Game.game.client);
+
         MySingletone points = MySingletone.getInstance();
         points.activity((int)yMove);
         points.activity((int)xMove);
@@ -80,17 +93,22 @@ public class Player extends Creature implements IPlayerSkin{
         xMove = 0;
         yMove = 0;
         
-        if(handler.getKeyManager().up)
+        if(handler.getKeyManager().up && index == 0)
             yMove = -speed;
-        if(handler.getKeyManager().down)
+        if(handler.getKeyManager().down && index == 0)
             yMove = speed;
-        if(handler.getKeyManager().left)
+        if(handler.getKeyManager().left && index == 0)
             xMove = -speed;
-        if(handler.getKeyManager().right)
-            xMove = speed;     
-    
+        if(handler.getKeyManager().right && index == 0)
+            xMove = speed;
     }
-    
+
+    public void setIndex(int indexas)
+    {
+        this.index = indexas;
+    }
+
+
     @Override
     public void render(Graphics g) {
         g.drawImage(this.skin, (int) x, (int) y, width, height, null);

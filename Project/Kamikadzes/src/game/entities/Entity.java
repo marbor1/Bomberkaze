@@ -17,7 +17,7 @@ import java.awt.Rectangle;
 public abstract class Entity {
     
     protected Handler handler;
-    protected float x, y;
+    public float x, y;
     protected int width, height;
     protected Rectangle bounds;
     

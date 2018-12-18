@@ -7,24 +7,23 @@ package game.states;
 
 
 import game.Handler;
-import game.entities.builders.ZombieBuilder;
 import game.entities.creatures.*;
-import game.entities.creatures.Enemies.*;
 import game.entities.creatures.levels.*;
 import game.entities.creatures.playerSkins.*;
 import game.entities.factories.*;
-import game.gfx.Assets;
-import game.observer.Achievements;
 import game.strategy.*;
-import game.tiles.Physics;
-import game.tiles.Tile;
 import game.worlds.World;
 import java.awt.Graphics;
-import Multiplayer.AzureConnection;
+
+import Multiplayer.MySQLConnection;
+import Multiplayer.AzureConnectionProxy;
 import adapters.CreatureJSONAdapter;
 import adapters.JSONParser;
 import game.entities.builders.Director;
 import game.entities.objects.Box;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import singletones.MySingletone;
 
@@ -34,7 +33,8 @@ import singletones.MySingletone;
  */
 public class GameState extends State{
 
-    private Player player;
+    public List<Player> players = new ArrayList<Player>();
+    //private Player player2;
     private Box box;
     private Creature slowZombie;
     private Creature slowZombieTest, slowZombieTest2,slowZombieTest3;
@@ -44,7 +44,7 @@ public class GameState extends State{
     private IFactory factory = new EnemyFactory();
     private Creature sc;
     private Creature dc;
-    private AzureConnection con;
+    private MySQLConnection connection;
     
     
     AbstractEnemyFactory enemyFactor ;
@@ -54,13 +54,15 @@ public class GameState extends State{
     
     public GameState(Handler handler){
         super(handler);
-        
         world = new World(handler, "res/worlds/world1.txt");
         handler.setWorld(world);
         //Skin
-        IPlayerSkin player1 = new BlueSkin(null);
-        player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
-        
+        //IPlayerSkin player1 = new BlueSkin(null);
+        //player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
+
+        //connection = new AzureConnectionProxy("bannedusr");
+        //connection = new AzureConnectionProxy("admin");
+        //connection = new AzureConnectionProxy("user");
         //Box
         //box = new Box(handler, 100, 400);
         
@@ -96,8 +98,13 @@ public class GameState extends State{
     @Override
     public void tick() {
         world.tick();
-        player.tick();
-        
+
+        for (Player p : players)
+        {
+
+                p.tick();
+
+        }
        /* rangerZombie.tick();
         //rangerZombie.attack(); //strategy
         fastZombie.tick();
@@ -122,7 +129,12 @@ public class GameState extends State{
     @Override
     public void render(Graphics g) {
         world.render(g);
-        player.render(g);
+        for (Player p : players)
+        {
+
+            p.render(g);
+
+        }
        /* rangerZombie.render(g);
         fastZombie.render(g);
         sc.render(g);
@@ -221,13 +233,13 @@ public class GameState extends State{
         {
             System.out.println("Decorator demo");
             IPlayerSkin player1 = new RedSkin(null);
-            player = new Player("Bombermenas", player1.draw(), handler, player.getX(), player.getY(), true);            
+           // players.get(0) = new Player("Bombermenas", player1.draw(), handler, players.get(0).getX(), player.getY(), true);
             System.out.println("============================================");
         }
         else if(handler.getKeyManager().a8)
         {
             System.out.println("Adapter demo");
-            JSONParser jsonobj = new CreatureJSONAdapter(player);
+            JSONParser jsonobj = new CreatureJSONAdapter(players.get(0));
 
             jsonobj.getandsetHealth();
             jsonobj.getandsetSpeed();
@@ -241,4 +253,40 @@ public class GameState extends State{
         
         timer = 0;
     }
+
+    public void setPlayer(Player playermp)
+    {
+        players.add(playermp);
+    }
+
+    public void removePlayerMP(String username) {
+
+        if(players.get(0).getName() == username)
+        {
+            players.remove(0);
+        }
+        else {
+            players.remove(1);
+        }
+
+    }
+
+    public int getPlayerMPIndex(String username) {
+        int index = 0;
+        for (Player p : players) {
+            if (p.getName().equals(username)) {
+                break;
+            }
+            index++;
+        }
+        return index;
+    }
+
+    public void movePlayer(String username, float x, float y) {
+        int index = getPlayerMPIndex(username);
+        players.get(index).x = x;
+        players.get(index).y = y;
+    }
+
+
 }

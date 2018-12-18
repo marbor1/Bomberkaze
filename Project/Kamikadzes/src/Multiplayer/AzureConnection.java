@@ -10,65 +10,54 @@ package Multiplayer;
  * @author a.pocius
  */
 import java.sql.*;
-import java.util.Properties;
-import java.util.TimeZone;
 
 
-
-
-public class AzureConnection {
+public class AzureConnection implements MySQLConnection {
 	
 	private Connection connection;
-	private static AzureConnection instance;
+	//private static AzureConnection instance;
 
-    // Initialize connection variables. 
+    // Initialize connection variables.
 
-	protected AzureConnection() {
-		try {
-			this.connect();
+	public AzureConnection() {
+            try {
+			this.connect(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 	}
-	public static AzureConnection getInstance() {
-		if (instance == null) {
-			synchronized(AzureConnection.class) {
-				if(instance == null) {
-					instance = new AzureConnection();
-				}
-			}
-		}
-		return instance;
-	}
-    public void connect ()  throws Exception
+    @Override
+    public void connect(String usr)  throws Exception
     {
         // Initialize connection variables. 
-        String host = "";
-        String database = "";
-        String user = "";
-        String password = "";
+        String host = "bomberman-mysqldbserver.mysql.database.azure.com";
+        String database = "bombermandatabase";
+        String user = "adminbomberman@bomberman-mysqldbserver";
+        String password = "Admin123";
 
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+        }
+        catch (ClassNotFoundException e)
+        {
+            throw new ClassNotFoundException("MySQL JDBC driver NOT detected in library path.", e);
+        }
+        
         System.out.println("MySQL JDBC driver detected in library path.");
+
 
         connection = null;
 
         // Initialize connection object
         try
         {
-            String url = String.format("jdbc:mysql://%s:3306/%s", host, database);
-
-            // Set connection properties.
-            Properties properties = new Properties();
-            properties.setProperty("user", user);
-            properties.setProperty("password", password);
-            properties.setProperty("useSSL", "true");
-            properties.setProperty("verifyServerCertificate", "true");
-            properties.setProperty("requireSSL", "false");
-            TimeZone timeZone = TimeZone.getTimeZone("Europe/Vilnius"); // e.g. "Europe/Rome"
-            TimeZone.setDefault(timeZone);
+             String url ="jdbc:mysql://bomberman-mysqldbserver.mysql.database.azure.com:3306/bombermandatabase?useSSL=true&requireSSL=false";
 
             // get connection
-            connection = DriverManager.getConnection(url, properties);
+            connection = DriverManager.getConnection(url, "adminbomberman@bomberman-mysqldbserver", password);
+
         }
         catch (SQLException e)
         {
@@ -83,12 +72,4 @@ public class AzureConnection {
         }
         System.out.println("Execution finished.");
     }
-    
-    public int getHighScore() {
-    	return 80;
-    }
-    public boolean setHighScore(int highScore, String name) {
-    	return true;
-    }
-    
 }

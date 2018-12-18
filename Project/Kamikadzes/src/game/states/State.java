@@ -7,6 +7,8 @@ package game.states;
 
 import game.Game;
 import game.Handler;
+import game.entities.creatures.Player;
+
 import java.awt.Graphics;
 
 /**
@@ -33,5 +35,12 @@ public abstract class State {
     public abstract void tick();
     
     public abstract void render(Graphics g);
-    
+
+    public abstract void setPlayer(Player player);
+
+    public abstract void removePlayerMP(String username);
+
+    public abstract int getPlayerMPIndex(String username);
+
+    public  abstract  void movePlayer(String username, float x, float y);
 }

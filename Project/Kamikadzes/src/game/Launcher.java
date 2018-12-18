@@ -13,7 +13,7 @@ import game.display.Display;
  */
 public class Launcher {
     public static void main(String[] args){
-        Game game = new Game("Kamikadzes", 900, 800);
+        Game game = new Game("Kamikadzes", 900, 900);
         game.start();
     }
 }
