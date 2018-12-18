@@ -77,81 +77,11 @@ public class GameState extends State{
         player1.accaptVisitor(new Spawn());
         player1.accaptVisitor(new Death());
         player = new Player("Bombermenas", player1.draw(), handler, 100, 60, true);
-       	/*try (BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/bigWorld2.txt"))) {
-
-			String content = "This is the content to write into file\n";
-
-//			bw.write(content);
-			
-			// no need to close it.
-			//bw.close();
-
-			System.out.println("Done");
-                        bw.write("10000 10000\n");
-                        bw.write("10000 10000\n");
-                         for (int i = 0; i<5000;i++)
-                        {
-                            for (int j = 0;j<5000;j++)
-                            {
-                               double random = Math.random() * 1;
-                               int a = (int) Math.round(random);
-                               String b = a+" ";
-                               bw.write(b);
-                            }
-                            bw.write("\n");
-                        }
-                        
-			// no need to close it.
-			//bw.close();
-
-			System.out.println("new file");
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-
-		}*/
-       
-        
-        //Box
-        //box = new Box(handler, 100, 400);
-        
-        //Factory
-        /*slowZombie = factory.createEnemy("SlowZombie", handler, 0, 0, "SimpleBomb");
-        fastZombie = factory.createEnemy("FastZombie", handler, 100, 65, "SimpleBomb"); 
-        EnemiesFacade enemyPoints = new EnemiesFacade();
-        enemyPoints.killFastZombie();
-        enemyPoints.killSlowZombie();
-//        ZombieAtackAdapter adapter = new ZombieAtackAdapter(rangerZombie);
-        
-        
-//        slowZombie = new SlowZombie(handler, 65, 200);
-//        fastZombie = new FastZombie(handler, 200, 64);
-
-
-        //Abstract factory
-        enemyFactor = new LevelFactory1();           
-//        slowZombie = enemyFactor.createMelee(handler, 0, 0);
-        rangerZombie = enemyFactor.createRange(handler, 65, 200); 
-
-        System.out.println("1) Original Fast zombie: " + System.identityHashCode(fastZombie) + ", Zombie bomb: " + System.identityHashCode(fastZombie.getBombs()));
-        sc = fastZombie.shallowCopy(); //ShallowCopy
-        sc.setX(800); //ShallowCopy test
-        System.out.println("2) Fast zombie shallow copy: " + System.identityHashCode(sc) + ", Zombie bomb: " + System.identityHashCode(sc.getBombs()));
-        dc = fastZombie.deepCopy();  //DeepCopy
-        dc.setX(500); //DeepCopy test
-        System.out.println("3) Fast zombie deep copy: " + System.identityHashCode(dc) + ", Zombie bomb: " + System.identityHashCode(dc.getBombs()));
-        
-        //Strategy
-        rangerZombie.attackList.add(new Slash()); 
-        //rangerZombie.attackList.remove(0);
-*/
     }   
     
     @Override
     public void tick() {
         world.tick();
-       // bigWorld.tick();
         player.tick();
         
        /* rangerZombie.tick();
@@ -177,37 +107,19 @@ public class GameState extends State{
 
     @Override
     public void render(Graphics g) {
-        Runtime runtime = Runtime.getRuntime();
+      /*  Runtime runtime = Runtime.getRuntime();
         NumberFormat format = NumberFormat.getInstance();
         StringBuilder sb = new StringBuilder();
-        long maxMemory = runtime.maxMemory();
-        long allocatedMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
-
-      //  System.out.println("free memory: " + format.format(freeMemory / 1024) + "<br/>");
-      //  System.out.println("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
-      //  System.out.println("max memory: " + format.format(maxMemory / 1024) + "<br/>");
-       // System.out.println("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
-        long startTime = System.nanoTime();
-        //Runtime runtime = Runtime.getRuntime();
-      //  long beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        long startTime = System.nanoTime();*/
         world.render(g);
-        long freeMemory2 = runtime.freeMemory();
+      /*  long freeMemory2 = runtime.freeMemory();
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
-        long afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-       // System.out.println("flyWeight:" + (double)totalTime/1000000000);
-      //  System.out.println("how much memory have been used: " + format.format((freeMemory - freeMemory2) / 1024)+ "mb");
-
-       // System.out.println("flyWeight memory:" + (beforeUsedMem - afterUsedMem) +" " + (beforeUsedMem - afterUsedMem)/1000000 + "Mb");
-     //   startTime = System.nanoTime();
-      //  beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-      //  bigWorld.render2(g);
-      //  afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-      //  endTime   = System.nanoTime();
-      //  totalTime = endTime - startTime;
-     //   System.out.println("no flyWeight:" + (double)totalTime/1000000000);
-     //   System.out.println("no flyWeight memory:" + (beforeUsedMem - afterUsedMem));
+        System.out.println("flyWeight:" + (double)totalTime/1000000000);
+        System.out.println("how much memory have been used: " + format.format((freeMemory - freeMemory2) / 1024)+ "mb");
+       // System.out.println("flyWeight memory:" + (beforeUsedMem - afterUsedMem) +" " + (beforeUsedMem - afterUsedMem)/1000000 + "Mb");*/
+   
         player.render(g);
        /* rangerZombie.render(g);
         fastZombie.render(g);
