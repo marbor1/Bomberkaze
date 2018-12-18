@@ -10,17 +10,19 @@ import game.entities.creatures.Range;
 import game.gfx.Assets;
 import java.awt.Graphics;
 import singletones.MySingletone;
+import visitor.Visitors;
 
 /**
  *
  * @author nugal
  */
 public class RangerZombie extends Range{
+    public String name = "trowPo" + Math.random()*1000;
      public RangerZombie(Handler handler, float x, float y){
         super(handler, x, y);
         
         speed = 2;
-         bounds.x = 19;
+        bounds.x = 19;
         bounds.y = 24;
         bounds.width = 25;
         bounds.height = 40;
@@ -55,4 +57,6 @@ public class RangerZombie extends Range{
         MySingletone points = MySingletone.getInstance();
         points.activity(100);
     }
+     
+
 }
