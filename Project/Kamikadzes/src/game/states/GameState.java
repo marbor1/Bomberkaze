@@ -24,7 +24,13 @@ import Multiplayer.AzureConnection;
 import adapters.CreatureJSONAdapter;
 import adapters.JSONParser;
 import game.entities.builders.Director;
+import game.entities.creatures.Memento.Caretaker;
+import game.entities.creatures.Memento.Memento;
 import game.entities.objects.Box;
+import game.levelHandler.Level1Handler;
+import game.levelHandler.Level2Handler;
+import game.levelHandler.Level3Handler;
+import game.levelHandler.LevelHandler;
 import java.util.Random;
 import singletones.MySingletone;
 
@@ -45,7 +51,9 @@ public class GameState extends State{
     private Creature sc;
     private Creature dc;
     private AzureConnection con;
-    
+    private int level;
+    private String path;
+    private LevelHandler levelHandler;
     
     AbstractEnemyFactory enemyFactor ;
             
@@ -59,8 +67,9 @@ public class GameState extends State{
         handler.setWorld(world);
         //Skin
         IPlayerSkin player1 = new BlueSkin(null);
+         levelHandler = getChainOfLevelHandlers();
         player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
-        
+       
         //Box
         //box = new Box(handler, 100, 400);
         
@@ -92,7 +101,14 @@ public class GameState extends State{
         //rangerZombie.attackList.remove(0);
 */
     }   
-    
+    public void setWorld(World world)
+    {
+        this.world = world;
+    }
+        public int getLevel()
+    {
+        return this.level;
+    }
     @Override
     public void tick() {
         world.tick();
@@ -149,17 +165,54 @@ public class GameState extends State{
         lastTimer = System.currentTimeMillis();
         if(timer < cooldown)
             return;
-        
+       
         if(handler.getKeyManager().a1)
         {
+           level = 1;
+           levelHandler.operate(this);
+           
            System.out.println("Singletone demo");
            System.out.println("Taskai pries pridejima " + points.getPoints());
            points.activity(100);
            System.out.println("Taskai po " + points.getPoints()); 
            System.out.println("============================================");
-        }     
+            
+           System.out.println("============================================");
+            System.out.println("\n  Memento TEST! \n");
+            System.out.println("\n  init ");
+            Caretaker ct = new Caretaker();
+            Memento state1 = player.saveEntityState();
+            ct.add(state1);
+            
+            System.out.println("\n  change 1 ");
+            player.setEntityState("123");
+            Memento state2 = player.saveEntityState();
+            ct.add(state2);
+            System.out.println("\n change 2 ");
+            player.setEntityState("555");
+            System.out.println("Before changes: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            player.setX(200);
+            player.setY(200);
+            Memento state3 = player.saveEntityState();
+            ct.add(state3);
+            System.out.println("After changes: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            System.out.println("\n  restore 1 ");
+            Memento restoreState = ct.get( ct.getSize() - 2);
+            player.restoreEntityState(restoreState);
+           System.out.println("After restore: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            System.out.println( player.getEntityState());
+            System.out.println("\n restore to after changes ");
+            Memento restoreState2 = ct.get( ct.getSize() - 1);
+            player.restoreEntityState(restoreState2);
+           System.out.println("After restore: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            System.out.println( player.getEntityState());
+            System.out.println("============================================");
+}     
         else if(handler.getKeyManager().a2)
         {
+            level = 2;
+            levelHandler.operate(this);
+            //levelHandler.operate(this);
             System.out.println("Abstract factory demo");
             enemyFactor = new LevelFactory2();   
             slowZombieTest = enemyFactor.createRange(handler, 300, 200); 
@@ -170,6 +223,9 @@ public class GameState extends State{
         }  
         else if(handler.getKeyManager().a3)
         {
+            level = 3;
+            levelHandler.operate(this);
+            //levelHandler.operate(this);
             System.out.println("Factory demo");
             ObjectFactory objFact = new ObjectFactory();
             box = (Box) objFact.createEnemy("Box", handler, 100, 400, "");
@@ -241,4 +297,15 @@ public class GameState extends State{
         
         timer = 0;
     }
+      private LevelHandler getChainOfLevelHandlers(){
+
+      LevelHandler level1Handler = new Level1Handler();
+      LevelHandler level2Handler = new Level2Handler();
+      LevelHandler level3Handler = new Level3Handler();
+
+     
+      level1Handler.setNextHandler(level2Handler);
+      level2Handler.setNextHandler(level3Handler);
+      return level1Handler;	
+   }
 }

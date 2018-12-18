@@ -34,4 +34,7 @@ public abstract class State {
     
     public abstract void render(Graphics g);
     
+    public Handler getHandler(){
+        return this.handler;
+    }
 }
