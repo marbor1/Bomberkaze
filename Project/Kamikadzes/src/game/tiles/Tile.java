@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Mantvydas
  */
-public class Tile {
+public abstract class Tile {
     
     //STATIC STUFF
     

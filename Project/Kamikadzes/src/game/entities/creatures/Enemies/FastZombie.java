@@ -56,6 +56,4 @@ public class FastZombie extends Melee{
         points.activity(100);
         System.out.println(points.getPoints());
     }
-
-
 }

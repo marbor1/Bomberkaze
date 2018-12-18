@@ -10,7 +10,10 @@ import game.entities.creatures.playerSkins.*;
  * @author nugal
  */
 public interface Visitors {
-    public String talk(BlueSkin zombie);
-    public String talk(RedSkin zombie);
-    public String talk(BlueHat zombie);
+    public void talk(BlueSkin zombie);
+    public void talk(RedSkin zombie);
+    public void talk(BlueHat zombie);
+    public void dropItem(BlueSkin zombie);
+    public void dropItem(RedSkin zombie);
+    public void dropItem(BlueHat zombie);
 }

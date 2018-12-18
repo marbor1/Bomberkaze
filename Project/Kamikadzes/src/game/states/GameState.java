@@ -25,10 +25,19 @@ import adapters.CreatureJSONAdapter;
 import adapters.JSONParser;
 import game.entities.builders.Director;
 import game.entities.objects.Box;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import static java.lang.Math.round;
 import java.util.Random;
 import singletones.MySingletone;
 import visitor.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.NumberFormat;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 /**
  *
  * @author Mantvydas
@@ -41,7 +50,7 @@ public class GameState extends State{
     private Creature slowZombieTest, slowZombieTest2,slowZombieTest3;
     private Creature fastZombie;
     private Creature rangerZombie;
-    private World world;
+    private World world, bigWorld;
     private IFactory factory = new EnemyFactory();
     private Creature sc;
     private Creature dc;
@@ -55,14 +64,54 @@ public class GameState extends State{
     
     public GameState(Handler handler){
         super(handler);
-        
+        long startTime = System.nanoTime();
         world = new World(handler, "res/worlds/world1.txt");
+        //world = new World(handler,"res/worlds/bigWorld2.txt");
         handler.setWorld(world);
+       // handler.setWorld(bigWorld);
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println((double)totalTime/1000000000);
         //Skin
         IPlayerSkin player1 = new BlueSkin(null);
         player1.accaptVisitor(new Spawn());
         player1.accaptVisitor(new Death());
-        player = new Player("Bombermenas", player1.draw(), handler, 100, 100, true);
+        player = new Player("Bombermenas", player1.draw(), handler, 100, 60, true);
+       	/*try (BufferedWriter bw = new BufferedWriter(new FileWriter("res/worlds/bigWorld2.txt"))) {
+
+			String content = "This is the content to write into file\n";
+
+//			bw.write(content);
+			
+			// no need to close it.
+			//bw.close();
+
+			System.out.println("Done");
+                        bw.write("10000 10000\n");
+                        bw.write("10000 10000\n");
+                         for (int i = 0; i<5000;i++)
+                        {
+                            for (int j = 0;j<5000;j++)
+                            {
+                               double random = Math.random() * 1;
+                               int a = (int) Math.round(random);
+                               String b = a+" ";
+                               bw.write(b);
+                            }
+                            bw.write("\n");
+                        }
+                        
+			// no need to close it.
+			//bw.close();
+
+			System.out.println("new file");
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+		}*/
+       
         
         //Box
         //box = new Box(handler, 100, 400);
@@ -102,6 +151,7 @@ public class GameState extends State{
     @Override
     public void tick() {
         world.tick();
+       // bigWorld.tick();
         player.tick();
         
        /* rangerZombie.tick();
@@ -127,7 +177,37 @@ public class GameState extends State{
 
     @Override
     public void render(Graphics g) {
+        Runtime runtime = Runtime.getRuntime();
+        NumberFormat format = NumberFormat.getInstance();
+        StringBuilder sb = new StringBuilder();
+        long maxMemory = runtime.maxMemory();
+        long allocatedMemory = runtime.totalMemory();
+        long freeMemory = runtime.freeMemory();
+
+      //  System.out.println("free memory: " + format.format(freeMemory / 1024) + "<br/>");
+      //  System.out.println("allocated memory: " + format.format(allocatedMemory / 1024) + "<br/>");
+      //  System.out.println("max memory: " + format.format(maxMemory / 1024) + "<br/>");
+       // System.out.println("total free memory: " + format.format((freeMemory + (maxMemory - allocatedMemory)) / 1024) + "<br/>");
+        long startTime = System.nanoTime();
+        //Runtime runtime = Runtime.getRuntime();
+      //  long beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         world.render(g);
+        long freeMemory2 = runtime.freeMemory();
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        long afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+       // System.out.println("flyWeight:" + (double)totalTime/1000000000);
+      //  System.out.println("how much memory have been used: " + format.format((freeMemory - freeMemory2) / 1024)+ "mb");
+
+       // System.out.println("flyWeight memory:" + (beforeUsedMem - afterUsedMem) +" " + (beforeUsedMem - afterUsedMem)/1000000 + "Mb");
+     //   startTime = System.nanoTime();
+      //  beforeUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+      //  bigWorld.render2(g);
+      //  afterUsedMem = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+      //  endTime   = System.nanoTime();
+      //  totalTime = endTime - startTime;
+     //   System.out.println("no flyWeight:" + (double)totalTime/1000000000);
+     //   System.out.println("no flyWeight memory:" + (beforeUsedMem - afterUsedMem));
         player.render(g);
        /* rangerZombie.render(g);
         fastZombie.render(g);
@@ -148,7 +228,7 @@ public class GameState extends State{
         
     }
     
-      private void checkAlgorithms()
+    private void checkAlgorithms()
     {
         MySingletone points = MySingletone.getInstance();
         timer += System.currentTimeMillis() - lastTimer;
@@ -169,10 +249,13 @@ public class GameState extends State{
             System.out.println("Abstract factory demo");
             enemyFactor = new LevelFactory2();   
             slowZombieTest = enemyFactor.createRange(handler, 300, 200); 
+            slowZombieTest.upgrade();
             System.out.println("Sukurtas creature: " + slowZombieTest.getName() + " " + slowZombieTest.getX() + " " + slowZombieTest.getY());
             slowZombieTest2 = enemyFactor.createMelee(handler, 65, 200);  
+            slowZombieTest2.upgrade();
             System.out.println("Sukurtas creature: " + slowZombieTest2.getName() + " " + slowZombieTest2.getX() + " " + slowZombieTest2.getY());
             System.out.println("============================================");
+            player.upgrade();
         }  
         else if(handler.getKeyManager().a3)
         {
@@ -225,7 +308,7 @@ public class GameState extends State{
         }
         else if(handler.getKeyManager().a7)
         {
-            System.out.println("Decorator demo");
+            System.out.println("Decorator and visitor demo");
             IPlayerSkin player1 = new RedSkin(null);
             player1.accaptVisitor(new Spawn());
             player1.accaptVisitor(new Death());

@@ -47,5 +47,24 @@ public abstract class Range extends Creature{
         //g.setColor(Color.red);
         //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
     }
-    
+      @Override
+    public void upgradeHp()
+    {
+        System.out.println("This zombie got +100Hp");
+    }
+    @Override
+    public void upgradeSpeed()
+    {
+        System.out.println("This zombie got +7 speed");
+    }
+    @Override
+    public void upgradeDmg()
+    {
+        System.out.println("This zombie deals 50dmg more");
+    }
+     @Override
+    public void upgradeRange()
+    {
+        System.out.println("Player range increased by 10");
+    }
 }

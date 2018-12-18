@@ -116,5 +116,27 @@ public class Player extends Creature implements IPlayerSkin{
     public void accaptVisitor(Visitors visitor) {
        
     }
+
+    @Override
+    void upgradeHp() {
+        health += 2000;
+        System.out.println("Player got 2000hp bonus");
+    }
+
+    @Override
+    void upgradeSpeed() {
+        this.speed +=1;
+        System.out.println("Player speed increased by 1");
+    }
+
+    @Override
+    void upgradeDmg() {
+        damage +=500;
+         System.out.println("Player deals 500dmg more");
+    }
+    @Override
+    void upgradeRange() {
+        System.out.println("Player range increased by 15");
+    }
    
 }

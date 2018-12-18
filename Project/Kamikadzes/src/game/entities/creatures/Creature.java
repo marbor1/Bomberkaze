@@ -29,13 +29,28 @@ public abstract class Creature extends Entity implements Cloneable {
     
     protected int health;
     protected float speed;
+    protected int damage;
+    protected int range;
     protected float xMove, yMove;
     protected Bomb bombs = null;
     protected Physics physic = new Physics();
     Achievements achievements = new Achievements();
 
+    abstract void upgradeHp();
 
+    abstract void upgradeSpeed();
+
+    abstract void upgradeDmg();
     
+    abstract void upgradeRange();
+    
+    public final void upgrade()
+    {
+        upgradeHp();
+        upgradeSpeed();
+        upgradeDmg();
+        upgradeRange();
+    }
     public Creature shallowCopy(){  //Shallow copy
         try {
             return (Creature) super.clone();
@@ -161,5 +176,8 @@ public abstract class Creature extends Entity implements Cloneable {
         System.out.println("Command");
         System.out.println(this.name + " padejo bomba");
     }
+    
+
+    
 
 }

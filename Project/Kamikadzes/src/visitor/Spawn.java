@@ -15,21 +15,33 @@ import game.entities.creatures.playerSkins.*;
 public class Spawn implements Visitors {
 
     @Override
-    public String talk(BlueSkin skin) {
+    public void talk(BlueSkin skin) {
        System.out.println(" i m " + skin.skinName + " and i m ready to go!!!");
-       return "ok";
     }
 
     @Override
-    public String talk(RedSkin skin) {
+    public void talk(RedSkin skin) {
         System.out.println(" i m " + skin.skinName + " and i m ready to go!!!");
-        return "ok";    
     }
 
     @Override
-    public String talk(BlueHat skin) {
+    public void talk(BlueHat skin) {
         System.out.println(" i have" + skin.skinName + " and i m ready to go!!!");
-        return "ok";    
+    }
+
+    @Override
+    public void dropItem(BlueSkin zombie) {
+        System.out.println("Zombie cant drop item on spawn.");
+    }
+
+    @Override
+    public void dropItem(RedSkin zombie) {
+        System.out.println("Zombie cant drop item on spawn.");
+    }
+
+    @Override
+    public void dropItem(BlueHat zombie) {
+         System.out.println("Zombie cant drop item on spawn.");
     }
     
 }
