@@ -44,7 +44,7 @@ public class Game implements Runnable {
     
     //Input
     private KeyManager keyManager;
-    
+    private int level;
     //Handler
     private Handler handler;
     

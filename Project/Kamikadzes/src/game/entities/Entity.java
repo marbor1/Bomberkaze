@@ -7,6 +7,7 @@ package game.entities;
 
 import game.Game;
 import game.Handler;
+import game.entities.creatures.Memento.Memento;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -23,6 +24,7 @@ public abstract class Entity {
     
     protected final boolean hero;
     protected String name;
+    protected String state;
     
     public Entity(String name, Handler handler, float x, float y, int width, int height, boolean hero){
         this.handler = handler;
@@ -32,7 +34,7 @@ public abstract class Entity {
         this.height = height;
         this.hero = hero;
         this.name = name;
-        
+        this.state = "Created";
         bounds = new Rectangle(0,0, width, height);
         
     }
@@ -41,7 +43,12 @@ public abstract class Entity {
     {
         return hero;
     }
-        
+       
+        public void restoreEntityState(Memento restoreState){
+        restoreState.getState(this);
+        System.out.println("restore state: " + this.getEntityState());
+    }
+    
     public abstract void tick();
     public abstract void render(Graphics g);
     
@@ -73,6 +80,19 @@ public abstract class Entity {
     public String getName(){
         return name;
     }
-    
+        public void setName(String name){
+        this.name = name;
+    }
+    public String getEntityState(){
+        return state;
+    }
+        public void setEntityState(String state){
+        System.out.println("set state: " + state);
+        this.state = state;
+    }
+        public Memento saveEntityState(){
+        System.out.println("saved state: " + state);
+        return new Memento(state, this);
+    }
 
 }

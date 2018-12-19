@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>AzureConnectionAdapter.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Kamikadzes&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">game.observer</a> &gt; <span class="el_source">AzureConnectionAdapter.java</span></div><h1>AzureConnectionAdapter.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+//package dev.dbc;
+package game.observer;
+
+import java.sql.*;
+import java.util.Properties;
+import java.util.TimeZone;
+
+
+
+/**
+ *
+ * @author nugal
+ */
+public class AzureConnectionAdapter {
+    	private Connection connection;
+	private static AzureConnectionAdapter instance;
+
+    // Initialize connection variables. 
+
+<span class="nc" id="L26">	protected AzureConnectionAdapter() {</span>
+		try {
+<span class="nc" id="L28">			this.connect();</span>
+<span class="nc" id="L29">		} catch (Exception e) {</span>
+<span class="nc" id="L30">			e.printStackTrace();</span>
+<span class="nc" id="L31">		}</span>
+<span class="nc" id="L32">	}</span>
+	public static AzureConnectionAdapter getInstance() {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">		if (instance == null) {</span>
+<span class="nc" id="L35">			synchronized(AzureConnectionAdapter.class) {</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">				if(instance == null) {</span>
+<span class="nc" id="L37">					instance = new AzureConnectionAdapter();</span>
+				}
+<span class="nc" id="L39">			}</span>
+		}
+<span class="nc" id="L41">		return instance;</span>
+	}
+    public void connect ()  throws Exception
+    {
+        // Initialize connection variables. 
+<span class="nc" id="L46">        String host = &quot;&quot;;</span>
+<span class="nc" id="L47">        String database = &quot;&quot;;</span>
+<span class="nc" id="L48">        String user = &quot;&quot;;</span>
+<span class="nc" id="L49">        String password = &quot;&quot;;</span>
+
+<span class="nc" id="L51">        System.out.println(&quot;MySQL JDBC driver detected in library path.&quot;);</span>
+
+<span class="nc" id="L53">        connection = null;</span>
+
+        // Initialize connection object
+        try
+        {
+<span class="nc" id="L58">            String url = String.format(&quot;jdbc:mysql://%s:3306/%s&quot;, host, database);</span>
+
+            // Set connection properties.
+<span class="nc" id="L61">            Properties properties = new Properties();</span>
+<span class="nc" id="L62">            properties.setProperty(&quot;user&quot;, user);</span>
+<span class="nc" id="L63">            properties.setProperty(&quot;password&quot;, password);</span>
+<span class="nc" id="L64">            properties.setProperty(&quot;useSSL&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L65">            properties.setProperty(&quot;verifyServerCertificate&quot;, &quot;true&quot;);</span>
+<span class="nc" id="L66">            properties.setProperty(&quot;requireSSL&quot;, &quot;false&quot;);</span>
+<span class="nc" id="L67">            TimeZone timeZone = TimeZone.getTimeZone(&quot;Europe/Vilnius&quot;); // e.g. &quot;Europe/Rome&quot;</span>
+<span class="nc" id="L68">            TimeZone.setDefault(timeZone);</span>
+
+            // get connection
+<span class="nc" id="L71">            connection = DriverManager.getConnection(url, properties);</span>
+        }
+<span class="nc" id="L73">        catch (SQLException e)</span>
+        {
+<span class="nc" id="L75">            throw new SQLException(&quot;Failed to create connection to database.&quot;, e);</span>
+<span class="nc" id="L76">        }</span>
+<span class="nc bnc" id="L77" title="All 2 branches missed.">        if (connection != null) </span>
+        { 
+<span class="nc" id="L79">            System.out.println(&quot;Successfully created connection to database.&quot;);</span>
+        }
+        else {
+<span class="nc" id="L82">            System.out.println(&quot;Failed to create connection to database.&quot;);</span>
+        }
+<span class="nc" id="L84">        System.out.println(&quot;Execution finished.&quot;);</span>
+<span class="nc" id="L85">    }</span>
+    
+    public int getHighScore() {
+<span class="nc" id="L88">    	return 80;</span>
+    }
+    public boolean setHighScore(int highScore, String name) {
+<span class="nc" id="L91">    	return true;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

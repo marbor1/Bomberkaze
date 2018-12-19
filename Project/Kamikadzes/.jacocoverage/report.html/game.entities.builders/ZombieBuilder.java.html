@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>ZombieBuilder.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;Kamikadzes&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">game.entities.builders</a> &gt; <span class="el_source">ZombieBuilder.java</span></div><h1>ZombieBuilder.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package game.entities.builders;
+
+import game.Handler;
+import game.entities.creatures.Creature;
+import game.entities.creatures.Enemies.*;
+
+/**
+ *
+ * @author Mantvydas
+ */
+<span class="nc" id="L16">public class ZombieBuilder implements IBuilder{</span>
+    
+<span class="nc" id="L18">    Creature e = null; </span>
+    int x;
+    int y;
+    Handler handler;
+    
+    @Override
+    public IBuilder startNew(Handler handler, int x, int y) {
+<span class="nc" id="L25">         e = null;</span>
+<span class="nc" id="L26">         this.handler = handler;</span>
+<span class="nc" id="L27">         this.x = x;</span>
+<span class="nc" id="L28">         this.y = y;</span>
+<span class="nc" id="L29">         return this;</span>
+    }
+    
+    @Override
+    public IBuilder addSlow() {
+<span class="nc" id="L34">        e = new SlowZombie(handler, x, y);</span>
+<span class="nc" id="L35">        return this;</span>
+    }
+    
+    @Override
+    public IBuilder addFast() {
+<span class="nc" id="L40">        e = new FastZombie(handler, x, y);</span>
+<span class="nc" id="L41">        return this;</span>
+    }
+    
+    @Override
+    public IBuilder addBombs(String type) {
+<span class="nc" id="L46">        e.addBombs(type);</span>
+<span class="nc" id="L47">        return this;</span>
+    }
+    
+    @Override
+    public Creature buildEnemy() {
+<span class="nc" id="L52">        return e;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>
