@@ -10,13 +10,14 @@ import game.entities.creatures.Melee;
 import game.gfx.Assets;
 import java.awt.Graphics;
 import singletones.MySingletone;
+import visitor.Visitors;
 
 /**
  *
  * @author nugal
  */
 public class FastZombie extends Melee{
-    
+    public String name = "FastPo" + Math.random()*1000;
      public FastZombie(Handler handler, float x, float y){
         super(handler, x, y);
         
@@ -55,5 +56,4 @@ public class FastZombie extends Melee{
         points.activity(100);
         System.out.println(points.getPoints());
     }
-    
 }

@@ -9,6 +9,7 @@ import game.Handler;
 import game.entities.creatures.Player;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import visitor.Visitors;
 
 /**
  *
@@ -16,5 +17,5 @@ import java.awt.image.BufferedImage;
  */
 public interface IPlayerSkin {
     BufferedImage draw();
-    
+    public void accaptVisitor(Visitors visitor);
 }

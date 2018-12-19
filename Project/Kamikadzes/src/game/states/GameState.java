@@ -27,13 +27,23 @@ import game.entities.builders.Director;
 import game.entities.creatures.Memento.Caretaker;
 import game.entities.creatures.Memento.Memento;
 import game.entities.objects.Box;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import static java.lang.Math.round;
 import game.levelHandler.Level1Handler;
 import game.levelHandler.Level2Handler;
 import game.levelHandler.Level3Handler;
 import game.levelHandler.LevelHandler;
 import java.util.Random;
 import singletones.MySingletone;
+import visitor.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.NumberFormat;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
 /**
  *
  * @author Mantvydas
@@ -46,7 +56,7 @@ public class GameState extends State{
     private Creature slowZombieTest, slowZombieTest2,slowZombieTest3;
     private Creature fastZombie;
     private Creature rangerZombie;
-    private World world;
+    private World world, bigWorld;
     private IFactory factory = new EnemyFactory();
     private Creature sc;
     private Creature dc;
@@ -62,9 +72,14 @@ public class GameState extends State{
     
     public GameState(Handler handler){
         super(handler);
-        
+        long startTime = System.nanoTime();
         world = new World(handler, "res/worlds/world1.txt");
+        //world = new World(handler,"res/worlds/bigWorld2.txt");
         handler.setWorld(world);
+       // handler.setWorld(bigWorld);
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println((double)totalTime/1000000000);
         //Skin
         IPlayerSkin player1 = new BlueSkin(null);
          levelHandler = getChainOfLevelHandlers();
@@ -137,7 +152,19 @@ public class GameState extends State{
 
     @Override
     public void render(Graphics g) {
+      /*  Runtime runtime = Runtime.getRuntime();
+        NumberFormat format = NumberFormat.getInstance();
+        StringBuilder sb = new StringBuilder();
+        long freeMemory = runtime.freeMemory();
+        long startTime = System.nanoTime();*/
         world.render(g);
+      /*  long freeMemory2 = runtime.freeMemory();
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println("flyWeight:" + (double)totalTime/1000000000);
+        System.out.println("how much memory have been used: " + format.format((freeMemory - freeMemory2) / 1024)+ "mb");
+       // System.out.println("flyWeight memory:" + (beforeUsedMem - afterUsedMem) +" " + (beforeUsedMem - afterUsedMem)/1000000 + "Mb");*/
+   
         player.render(g);
        /* rangerZombie.render(g);
         fastZombie.render(g);
@@ -158,7 +185,7 @@ public class GameState extends State{
         
     }
     
-      private void checkAlgorithms()
+    private void checkAlgorithms()
     {
         MySingletone points = MySingletone.getInstance();
         timer += System.currentTimeMillis() - lastTimer;
@@ -216,10 +243,13 @@ public class GameState extends State{
             System.out.println("Abstract factory demo");
             enemyFactor = new LevelFactory2();   
             slowZombieTest = enemyFactor.createRange(handler, 300, 200); 
+            slowZombieTest.upgrade();
             System.out.println("Sukurtas creature: " + slowZombieTest.getName() + " " + slowZombieTest.getX() + " " + slowZombieTest.getY());
             slowZombieTest2 = enemyFactor.createMelee(handler, 65, 200);  
+            slowZombieTest2.upgrade();
             System.out.println("Sukurtas creature: " + slowZombieTest2.getName() + " " + slowZombieTest2.getX() + " " + slowZombieTest2.getY());
             System.out.println("============================================");
+            player.upgrade();
         }  
         else if(handler.getKeyManager().a3)
         {
@@ -275,8 +305,10 @@ public class GameState extends State{
         }
         else if(handler.getKeyManager().a7)
         {
-            System.out.println("Decorator demo");
+            System.out.println("Decorator and visitor demo");
             IPlayerSkin player1 = new RedSkin(null);
+            player1.accaptVisitor(new Spawn());
+            player1.accaptVisitor(new Death());
             player = new Player("Bombermenas", player1.draw(), handler, player.getX(), player.getY(), true);            
             System.out.println("============================================");
         }

@@ -8,6 +8,7 @@ package game.entities.creatures.playerSkins;
 import game.Handler;
 import game.entities.creatures.Player;
 import java.awt.image.BufferedImage;
+import visitor.Visitors;
 
 /**
  *
@@ -25,5 +26,9 @@ public abstract class PlayerSkinDecorator implements IPlayerSkin{
     public PlayerSkinDecorator(IPlayerSkin skin)
     {
         this.skin=skin;
+    }
+     @Override
+    public void accaptVisitor(Visitors visitor) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

@@ -35,4 +35,25 @@ public abstract class Melee extends Creature{
     public void render(Graphics g) {
         g.drawImage(Assets.player, (int) x, (int) y, width, height, null);
     }
+    @Override
+    public void upgradeHp()
+    {
+        System.out.println("This zombie got +500Hp");
+    }
+    @Override
+    public void upgradeSpeed()
+    {
+        System.out.println("This zombie got +5 speed");
+    }
+    @Override
+    public void upgradeDmg()
+    {
+        System.out.println("This zombie deals 15dmg more");
+    }
+    @Override
+    public void upgradeRange()
+    {
+        System.out.println("This zombie range increased by 5");
+    }
+
 }
