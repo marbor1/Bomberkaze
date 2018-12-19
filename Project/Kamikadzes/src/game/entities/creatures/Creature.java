@@ -9,6 +9,7 @@ import game.strategy.IAttackAlgorithm;
 import game.Game;
 import game.Handler;
 import game.entities.Entity;
+import game.mediator.Mediator;
 import game.observer.Achievements;
 import game.tiles.Tile;
 import game.tiles.Physics;
@@ -35,6 +36,7 @@ public abstract class Creature extends Entity implements Cloneable {
     protected Bomb bombs = null;
     protected Physics physic = new Physics();
     Achievements achievements = new Achievements();
+    Mediator enemyRadio;
 
     abstract void upgradeHp();
 
@@ -74,13 +76,14 @@ public abstract class Creature extends Entity implements Cloneable {
     //Strategy metodu sarasas
     public List<IAttackAlgorithm> attackList = new ArrayList<IAttackAlgorithm>();
     
-    public Creature(String name, Handler handler, float x, float y, int width, int height, boolean hero) {
+    public Creature(String name, Handler handler, float x, float y, int width, int height, boolean hero, Mediator mediator) {
         super(name, handler, x, y, width, height, hero);
         health = DEFAULT_HEALTH;
         speed = DEFAULT_SPEED;
         xMove = 0;
         yMove = 0;
         physic.add(achievements);
+        this.enemyRadio = mediator;
     }
     
     public void move(){
@@ -168,13 +171,51 @@ public abstract class Creature extends Entity implements Cloneable {
         return this.bombs;
     }
     
-        public String getBomb(){
+    public String getBomb(){
         return this.bombs.type;
     }
     
     public void putBomb(){
         System.out.println("Command");
         System.out.println(this.name + " padejo bomba");
+    }
+    
+        public void sendWarning(String msg) {
+        enemyRadio.broadcastMessage(this, msg);
+    }
+
+    public void receiveMessage(String msg) {
+        System.out.println(this.name + " gavo zinute: " + msg);
+    }
+
+    private List<Integer> zonaX = new ArrayList<Integer>();
+    private List<Integer> zonaY = new ArrayList<Integer>();
+
+    public void searchPlayer(Player player) {
+        int range = 32 * 2;
+        boolean radoX = false;
+        boolean radoY = false;
+        zonaX.clear();
+        zonaY.clear();
+        for (int i = 0; i < range; i++) {
+            zonaX.add((int) this.x + i);
+            zonaX.add((int) this.x - i);
+            zonaY.add((int) this.y + i);
+            zonaY.add((int) this.y - i);
+        }
+        for (int zx : zonaX) {
+            if (zx == player.x) {
+                radoX = true;
+            }
+        }
+        for (int zy : zonaY) {
+            if (zy == player.y) {
+                radoY = true;
+            }
+        }
+        if (radoX && radoY) {
+            this.sendWarning("Player found");
+        }
     }
     
 

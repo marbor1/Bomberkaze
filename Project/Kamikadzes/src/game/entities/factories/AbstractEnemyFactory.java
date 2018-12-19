@@ -8,12 +8,13 @@ package game.entities.factories;
 import game.Handler;
 import game.entities.creatures.Melee;
 import game.entities.creatures.Range;
+import game.mediator.Mediator;
 
 /**
  *
  * @author nugal
  */
 public abstract class AbstractEnemyFactory {
-    public abstract Melee createMelee(Handler handler, float x, float y);
-    public abstract Range createRange(Handler handler, float x, float y);
+    public abstract Melee createMelee(Handler handler, float x, float y, Mediator mediator);
+    public abstract Range createRange(Handler handler, float x, float y, Mediator mediator);
 }

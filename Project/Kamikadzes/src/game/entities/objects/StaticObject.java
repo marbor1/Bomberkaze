@@ -12,10 +12,11 @@ import game.entities.Entity;
  *
  * @author Marius
  */
-public abstract class Objectas extends Entity {
+public abstract class StaticObject extends Entity {
     
-    public Objectas(String name, Handler handler, float x, float y, int width, int height, boolean hero) {
+    public StaticObject(String name, Handler handler, float x, float y, int width, int height, boolean hero) {
         super(name, handler, x, y, width, height, hero);
     }
     
+    public abstract Iterator createIterator();
 }

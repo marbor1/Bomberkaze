@@ -17,7 +17,7 @@ import game.entities.objects.*;
 public class ObjectFactory implements IFactory{
 
     @Override
-    public Objectas createEnemy(String type, Handler handler, int x, int y, String BombsType) {
+    public StaticObject createEnemy(String type, Handler handler, int x, int y, String BombsType) {
             if(type.equals("Box")){
             return new Box(handler, x, y);
         }

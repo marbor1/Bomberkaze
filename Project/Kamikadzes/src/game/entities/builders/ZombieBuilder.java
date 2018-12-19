@@ -31,13 +31,13 @@ public class ZombieBuilder implements IBuilder{
     
     @Override
     public IBuilder addSlow() {
-        e = new SlowZombie(handler, x, y);
+        e = new SlowZombie(handler, x, y, null);
         return this;
     }
     
     @Override
     public IBuilder addFast() {
-        e = new FastZombie(handler, x, y);
+        e = new FastZombie(handler, x, y, null);
         return this;
     }
     

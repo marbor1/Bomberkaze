@@ -8,6 +8,7 @@ package game.entities.creatures;
 import game.strategy.Slash;
 import game.Handler;
 import game.gfx.Assets;
+import game.mediator.Mediator;
 import java.awt.Graphics;
 import singletones.MySingletone;
 
@@ -16,8 +17,8 @@ import singletones.MySingletone;
  * @author nugal
  */
 public abstract class Melee extends Creature{
-     public Melee(Handler handler, float x, float y){
-        super("Melee", handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, false);
+     public Melee(Handler handler, float x, float y, Mediator mediator){
+        super("Melee", handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, false, mediator);
     
         bounds.x = 59;
         bounds.y = 24;

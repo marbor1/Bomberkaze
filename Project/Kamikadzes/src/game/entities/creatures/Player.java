@@ -11,8 +11,10 @@ import game.Handler;
 import game.entities.creatures.playerSkins.IPlayerSkin;
 import game.entities.creatures.states.IPlayerState;
 import game.entities.creatures.states.PlayerWalkingState;
+import game.entities.objects.Bomba;
 import game.gfx.Assets;
 import game.input.Command;
+import game.mediator.Mediator;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
@@ -24,20 +26,18 @@ import visitor.Visitors;
  *
  * @author Mantvydas
  */
-public class Player extends Creature implements IPlayerSkin{
+public class Player extends Creature implements IPlayerSkin {
 
     protected BufferedImage skin;
     private Command command;
     private IPlayerState state;
     private int runningTime;
     private long lastAttackTimer, attackCooldown = 800, attackTimer = attackCooldown;
-    
-    
-    public Player(String name, BufferedImage skin, Handler handler, float x, float y, boolean hero){
-        super(name, handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero);
-    
-        if (skin == null )
-        {
+
+    public Player(String name, BufferedImage skin, Handler handler, float x, float y, boolean hero, Mediator mediator) {
+        super(name, handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, hero, mediator);
+
+        if (skin == null) {
             this.skin = Assets.player;
         }
         this.skin = skin;
@@ -55,23 +55,22 @@ public class Player extends Creature implements IPlayerSkin{
         getInput();
         move();
         MySingletone points = MySingletone.getInstance();
-        points.activity((int)yMove);
-        points.activity((int)xMove);
+        points.activity((int) yMove);
+        points.activity((int) xMove);
         checkAttacks();
 //        checkAlgorithms();
-       // System.out.println(points.getPoints());
-       
+        // System.out.println(points.getPoints());
+
     }
-    
-    private void checkAttacks()
-    {
+
+    private void checkAttacks() {
         /*attackTimer += System.currentTimeMillis() - lastAttackTimer;
         lastAttackTimer = System.currentTimeMillis();
         if(attackTimer < attackCooldown)
             return;
-        */
+         */
         state.checkAttacks(this, handler.getKeyManager());
-        
+
         /*
         if(handler.getKeyManager().attack)
             handler.getKeyManager().buttonG.execute(this);
@@ -79,32 +78,34 @@ public class Player extends Creature implements IPlayerSkin{
             handler.getKeyManager().buttonF.execute(this);
         else 
             return;
-        */
+         */
         //attackTimer = 0;
     }
-    
-  
-    
-    private void getInput(){
+
+    private void getInput() {
         xMove = 0;
         yMove = 0;
-        
-      if(handler.getKeyManager().up)
+
+        if (handler.getKeyManager().up) {
             yMove = -speed;
-        if(handler.getKeyManager().down)
+        }
+        if (handler.getKeyManager().down) {
             yMove = speed;
-        if(handler.getKeyManager().left)
+        }
+        if (handler.getKeyManager().left) {
             xMove = -speed;
-        if(handler.getKeyManager().right)
-            xMove = speed;    
+        }
+        if (handler.getKeyManager().right) {
+            xMove = speed;
+        }
         state.setState(this, handler.getKeyManager().run);
-    
+
     }
-    
+
     @Override
     public void render(Graphics g) {
         g.drawImage(this.skin, (int) x, (int) y, width, height, null);
-    
+
         //g.setColor(Color.red);
         //g.fillRect((int) (x + bounds.x), (int) (y + bounds.y), bounds.width, bounds.height);
     }
@@ -114,7 +115,7 @@ public class Player extends Creature implements IPlayerSkin{
     public void attack() {
         System.out.println("Command");
         System.out.println(this.name + " atakuoja");
-    }  
+    }
 
     @Override
     public BufferedImage draw() {
@@ -123,7 +124,7 @@ public class Player extends Creature implements IPlayerSkin{
 
     @Override
     public void accaptVisitor(Visitors visitor) {
-       
+
     }
 
     @Override
@@ -134,57 +135,63 @@ public class Player extends Creature implements IPlayerSkin{
 
     @Override
     void upgradeSpeed() {
-        this.speed +=1;
+        this.speed += 1;
         System.out.println("Player speed increased by 1");
     }
 
     @Override
     void upgradeDmg() {
-        damage +=500;
-         System.out.println("Player deals 500dmg more");
+        damage += 500;
+        System.out.println("Player deals 500dmg more");
     }
+
     @Override
     void upgradeRange() {
         System.out.println("Player range increased by 15");
-    public void setSkin(BufferedImage skin)
-    {
+    }
+
+    public void setSkin(BufferedImage skin) {
         this.skin = skin;
     }
-    public void setNewState(IPlayerState state)
-    {
+
+    public void setNewState(IPlayerState state) {
         this.state = state;
     }
-    public IPlayerState getState()
-    {
+
+    public IPlayerState getState() {
         return this.state;
     }
-    public void setAttackTimer(long timer)
-    {
+
+    public void setAttackTimer(long timer) {
         this.attackTimer = timer;
     }
-    public void setLastAttackTimer(long timer)
-    {
+
+    public void setLastAttackTimer(long timer) {
         this.lastAttackTimer = timer;
     }
-    public long getAttackTimer()
-    {
+
+    public long getAttackTimer() {
         return this.attackTimer;
     }
-    public long getLastAttackTimer()
-    {
+
+    public long getLastAttackTimer() {
         return this.lastAttackTimer;
     }
-    public long getAttackCooldown()
-    {
+
+    public long getAttackCooldown() {
         return this.attackCooldown;
     }
-    public int getRunningTime()
-    {
+
+    public int getRunningTime() {
         return this.runningTime;
     }
-    public void setRunningTime(int runningTime)
-    {
-       this.runningTime = runningTime;
+
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
     }
-   
+
+    public Bomba getBomba() {
+        return new Bomba(handler, this.x, this.y);
+    }
+
 }

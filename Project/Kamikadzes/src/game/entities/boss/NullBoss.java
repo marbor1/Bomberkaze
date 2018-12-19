@@ -8,6 +8,7 @@ import game.Handler;
 import game.entities.creatures.Creature;
 import game.entities.creatures.Melee;
 import game.gfx.Assets;
+import game.mediator.Mediator;
 import java.awt.Graphics;
 import singletones.MySingletone;
 import visitor.Visitors;
@@ -17,11 +18,11 @@ import visitor.Visitors;
  * @author nugal
  */
 public class NullBoss extends Melee{
-     public NullBoss(Handler handler, float x, float y){
-        super(handler, x, y);
+     public NullBoss(Handler handler, float x, float y, Mediator mediator){
+        super(handler, x, y, mediator);
     }
     public NullBoss(){
-        super(null,0,0);
+        super(null,0,0, null);
     }
      
      @Override

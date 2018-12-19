@@ -12,6 +12,7 @@ import game.entities.creatures.Enemies.SlowZombie;
 import game.entities.creatures.Melee;
 import game.entities.creatures.Range;
 import game.entities.factories.AbstractEnemyFactory;
+import game.mediator.Mediator;
 
 /**
  *
@@ -20,13 +21,13 @@ import game.entities.factories.AbstractEnemyFactory;
 public class LevelFactory2 extends AbstractEnemyFactory {
 
     @Override
-    public Melee createMelee(Handler handler, float x, float y) {
-        return new SlowZombie(handler, x, y);
+    public Melee createMelee(Handler handler, float x, float y, Mediator mediator) {
+        return new SlowZombie(handler, x, y, mediator);
     }
 
     @Override
-    public Range createRange(Handler handler, float x, float y) {
-        return new RangerZombie(handler, x, y);
+    public Range createRange(Handler handler, float x, float y, Mediator mediator) {
+        return new RangerZombie(handler, x, y, mediator);
     }
     
 }

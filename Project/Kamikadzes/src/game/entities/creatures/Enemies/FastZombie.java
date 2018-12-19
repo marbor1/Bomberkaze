@@ -8,6 +8,7 @@ import game.Handler;
 import game.entities.creatures.Creature;
 import game.entities.creatures.Melee;
 import game.gfx.Assets;
+import game.mediator.Mediator;
 import java.awt.Graphics;
 import singletones.MySingletone;
 import visitor.Visitors;
@@ -18,8 +19,8 @@ import visitor.Visitors;
  */
 public class FastZombie extends Melee{
     public String name = "FastPo" + Math.random()*1000;
-     public FastZombie(Handler handler, float x, float y){
-        super(handler, x, y);
+     public FastZombie(Handler handler, float x, float y, Mediator mediator){
+        super(handler, x, y, mediator);
         
         speed = 2;
         bounds.x = 19;
@@ -29,7 +30,7 @@ public class FastZombie extends Melee{
     
     }
     public FastZombie(){
-        super(null,0,0);
+        super(null,0,0, null);
     }
      
      @Override

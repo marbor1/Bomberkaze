@@ -14,7 +14,7 @@ import java.awt.Graphics;
  *
  * @author Marius
  */
-public class Box extends Objectas{
+public class Box extends StaticObject{
 
     public Box(Handler handler, float x, float y) {
         super("Box", handler, x, y, Tile.TILEWIDTH, Tile.TILEHEIGHT, false);
@@ -29,6 +29,11 @@ public class Box extends Objectas{
     @Override
     public void render(Graphics g) {
         g.drawImage(Assets.dirt, (int) x, (int) y, width, height, null);
+    }
+
+    @Override
+    public Iterator createIterator() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

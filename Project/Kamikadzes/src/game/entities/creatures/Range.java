@@ -8,6 +8,7 @@ package game.entities.creatures;
 import game.strategy.ShootGun;
 import game.Handler;
 import game.gfx.Assets;
+import game.mediator.Mediator;
 import java.awt.Graphics;
 import singletones.MySingletone;
 
@@ -16,8 +17,8 @@ import singletones.MySingletone;
  * @author nugal
  */
 public abstract class Range extends Creature{
-     public Range(Handler handler, float x, float y){
-        super("Ranger", handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, false);
+     public Range(Handler handler, float x, float y, Mediator mediator){
+        super("Ranger", handler, x, y, Creature.DEFAULT_CREATURE_WIDTH, Creature.DEFAULT_CREATURE_HEIGHT, false, mediator);
     
         bounds.x = 59;
         bounds.y = 24;
