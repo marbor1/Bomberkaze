@@ -24,6 +24,8 @@ import Multiplayer.AzureConnection;
 import adapters.CreatureJSONAdapter;
 import adapters.JSONParser;
 import game.entities.builders.Director;
+import game.entities.creatures.Memento.Caretaker;
+import game.entities.creatures.Memento.Memento;
 import game.entities.objects.Box;
 import game.levelHandler.Level1Handler;
 import game.levelHandler.Level2Handler;
@@ -162,9 +164,48 @@ public class GameState extends State{
            points.activity(100);
            System.out.println("Taskai po " + points.getPoints()); 
            System.out.println("============================================");
+        
+           
+            level = 1;
+           levelHandler.operate(this);
+           
+        System.out.println("============================================");
+            System.out.println("\n  Memento TEST! \n");
+            System.out.println("\n  init ");
+            Caretaker ct = new Caretaker();
+            Memento state1 = player.saveEntityState();
+            ct.add(state1);
+            
+            System.out.println("\n  change 1 ");
+            player.setEntityState("123");
+            Memento state2 = player.saveEntityState();
+            ct.add(state2);
+            System.out.println("\n change 2 ");
+            player.setEntityState("555");
+            System.out.println("Before changes: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            player.setX(200);
+            player.setY(200);
+            Memento state3 = player.saveEntityState();
+            ct.add(state3);
+            System.out.println("After changes: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            System.out.println("\n  restore 1 ");
+            Memento restoreState = ct.get( ct.getSize() - 2);
+            player.restoreEntityState(restoreState);
+           System.out.println("After restore: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            System.out.println( player.getEntityState());
+            System.out.println("\n restore to after changes ");
+            Memento restoreState2 = ct.get( ct.getSize() - 1);
+            player.restoreEntityState(restoreState2);
+           System.out.println("After restore: " + "X: "+player.getX()+ " " +"Y: "+player.getY()+ " " +"name: "+player.getName()+ " " +"state: "+player.getEntityState());
+            System.out.println( player.getEntityState());
+            System.out.println("============================================");
         }     
         else if(handler.getKeyManager().a2)
         {
+            level = 2;
+            levelHandler.operate(this);
+            
+            
             System.out.println("Abstract factory demo");
             enemyFactor = new LevelFactory2();   
             slowZombieTest = enemyFactor.createRange(handler, 300, 200); 
@@ -178,6 +219,10 @@ public class GameState extends State{
         }  
         else if(handler.getKeyManager().a3)
         {
+            level = 3;
+            levelHandler.operate(this);
+            
+            
             System.out.println("Factory demo");
             ObjectFactory objFact = new ObjectFactory();
             box = (Box) objFact.createEnemy("Box", handler, 100, 400, "");
